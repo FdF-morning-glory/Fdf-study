@@ -39,7 +39,7 @@ all: $(NAME)
 
 $(NAME): $(OBJS)
 	make -C $(LIBFT_DIR)
-	$(CC) -o main $(OBJS) -L ./minilibx_macos -lmlx -L ./libft -lft -framework OpenGL -framework AppKit
+	$(CC) -o main $(OBJS) -L ./minilibx_macos -lmlx -L ./libft -lft -framework OpenGL -framework AppKit -g3 -fsanitize=address
 
 bonus:
 	make BONUS_FLAG=1 all
@@ -55,9 +55,8 @@ fclean: clean
 re:
 	make fclean
 	make all
-test:
-	make -C $(LIBFT_DIR)
-	$(CC) -o main $(OBJS) -L ./minilibx_macos -lmlx -L ./libft -lft -framework OpenGL -framework AppKit -g3 -fsanitize=address
+test: all
 	./main
+	rm ./main
 
 .PHONY: bonus all clean fclean re

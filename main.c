@@ -100,24 +100,10 @@ int main()
 {
 	void	*mlx;
 	void	*window;
-	// char	*line;
-	// int		x;
-	// char	**split;
 
 	mlx = mlx_init();
 	window = mlx_new_window(mlx, 700, 1500, "FdF");
 
-	// int arr[100][100] = {0, };
-	// arr[0][0] = 0;
-	// arr[0][300] = 0;
-	// arr[300][300] = 0;
-	// arr[30][30] = -30;
-	// arr[30][0] = 0;
-	// arr[30][0] = -30;
-	// arr[0][0] = -30;
-
-	// (void)rotate_x;
-	// (void)rotate_y;
 	print_pixel(100,0,0,mlx, window);
 	print_pixel(0,-100,0,mlx, window);
 	print_pixel(100,-100,0,mlx, window);
@@ -126,26 +112,6 @@ int main()
 	print_pixel(0,0,100,mlx, window);
 	print_pixel(0,-100,100,mlx, window);
 	print_pixel(0,0,0,mlx, window);
-
-
-
-
-
-	// for (int x = 0; x < 180; x += 20)
-	// {
-	// 	for (int y = 0; y < 200; y += 20)
-	// 	{
-	// 		if (y == 0 && x ==0)
-	// 			mlx_pixel_put(mlx,window, 100, 100, 0xFFFFFF);
-	// 		else if (ft[y/20][x/20] == 1)
-	// 			dda(100+x, 100+(y - 20) , 100+x, 100+y, mlx, window, 1);
-	// 		else if (ft[y/20][x/20] == 0 && y != 0)
-	// 			dda(100+x, 100+(y - 20) , 100+x, 100+y, mlx, window, 0);
-	// 	}
-	// }
 	mlx_loop(mlx);
 	return (0);
 }
-
-
-// [0,0,0,0,0,0,0,0,0],[0,0,0,0,0,0,0,0,0,0],[0,0,1,1,0,0,1,1,0],[0,0,1,1,0,0,1,1,0],[0,0,1,1,0,0,1,1,0],[0,0,1,1,1,1,1,1,0],[0,0,0,1,1,1,1,1,0],[0,0,0,0,0,0,1,1,0]
