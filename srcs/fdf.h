@@ -17,6 +17,15 @@ typedef struct	s_point
 	double	iso_y;
 }	t_point;
 
+typedef struct	s_map
+{
+	int	width;
+	int	height;
+}	t_map;
+
 void	ft_error(char *str);
+void	ft_check_args(int argc, char **argv);
+int		ft_open_file(char *file_name);
+void	rec_checker(int fd);
 
 #endif

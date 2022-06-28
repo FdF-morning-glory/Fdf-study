@@ -1,0 +1,22 @@
+!_TAG_FILE_FORMAT	2	/extended format; --format=1 will not append ;" to lines/
+!_TAG_FILE_SORTED	1	/0=unsorted, 1=sorted, 2=foldcase/
+!_TAG_PROGRAM_AUTHOR	Darren Hiebert	/dhiebert@users.sourceforge.net/
+!_TAG_PROGRAM_NAME	Exuberant Ctags	//
+!_TAG_PROGRAM_URL	http://ctags.sourceforge.net	/official site/
+!_TAG_PROGRAM_VERSION	5.8	//
+FDF_H	fdf.h	/^# define FDF_H$/;"	d
+PI	fdf.h	/^# define PI /;"	d
+ft_check_args	utils.c	/^void	ft_check_args(int argc, char **argv)$/;"	f
+ft_error	utils.c	/^void	ft_error(char *str)$/;"	f
+ft_open_file	utils.c	/^int	ft_open_file(char *file_name)$/;"	f
+img	fdf.h	/^	void	*img;$/;"	m	struct:s_mlx
+iso_x	fdf.h	/^	double	iso_x;$/;"	m	struct:s_point
+iso_y	fdf.h	/^	double	iso_y;$/;"	m	struct:s_point
+main	fdf.c	/^int	main(int argc, char **argv)$/;"	f
+mlx	fdf.h	/^	void	*mlx;$/;"	m	struct:s_mlx
+s_mlx	fdf.h	/^typedef struct	s_mlx$/;"	s
+s_point	fdf.h	/^typedef struct	s_point$/;"	s
+t_mlx	fdf.h	/^}	t_mlx;$/;"	t	typeref:struct:s_mlx
+t_point	fdf.h	/^}	t_point;$/;"	t	typeref:struct:s_point
+win	fdf.h	/^	void	*win;$/;"	m	struct:s_mlx
+z	fdf.h	/^	int		z;$/;"	m	struct:s_point

@@ -1,6 +1,5 @@
-//#include "minilibx_macos/mlx.h"
-// #include "./gnl/get_next_line.h"
-// #include "./libft/libft.h"
+#include "get_next_line.h"
+#include "libft.h"
 #include <fcntl.h>
 #include <math.h>
 #include <stdio.h>
@@ -23,11 +22,12 @@
 
 int	main(int argc, char **argv)
 {
-	int	fd;
+	int		fd;
+	t_map	map;
 
 	ft_check_args(argc, argv);
 	fd = ft_open_file(argv[1]);
-
+	map = rec_checker(fd);
 
 
 
