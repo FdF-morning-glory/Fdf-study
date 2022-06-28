@@ -1,18 +1,35 @@
-#include "minilibx_macos/mlx.h"
-#include "./gnl/get_next_line.h"
-#include "./libft/libft.h"
+//#include "minilibx_macos/mlx.h"
+// #include "./gnl/get_next_line.h"
+// #include "./libft/libft.h"
 #include <fcntl.h>
 #include <math.h>
 #include <stdio.h>
 
+	// int fd;
 
-void	fdf()
-{
+	// fd = open("anyfile", O_RDONLY);
+	// if (fd == -1)
+	// {
+	// 	ft_error("test");
+	// }
 
-}
+#include "fdf.h"
+
+
+// void	fdf()
+// {
+
+// }
 
 int	main(int argc, char **argv)
 {
+	int	fd;
+
+	ft_check_args(argc, argv);
+	fd = ft_open_file(argv[1]);
+
+
+
 
 	/*---------파싱부 ----------*/
 	//예외처리(인자 argc / 확장자 fdf)

@@ -17,4 +17,6 @@ typedef struct	s_point
 	double	iso_y;
 }	t_point;
 
+void	ft_error(char *str);
+
 #endif
