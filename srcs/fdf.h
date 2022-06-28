@@ -26,6 +26,6 @@ typedef struct	s_map
 void	ft_error(char *str);
 void	ft_check_args(int argc, char **argv);
 int		ft_open_file(char *file_name);
-void	rec_checker(int fd);
+t_map	rec_checker(char *file_name);
 
 #endif

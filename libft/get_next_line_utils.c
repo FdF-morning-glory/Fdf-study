@@ -59,23 +59,7 @@ char	*ft_strcat(char *dest, char const *src)
 	return (dest);
 }
 
-char	*ft_strdup(const char *s1)
-{
-	char	*new;
-	size_t	i;
 
-	i = 0;
-	new = (char *)malloc(sizeof(char) * (ft_strchr(s1, '\0') + 1));
-	if (new == NULL)
-		return (NULL);
-	while (s1[i])
-	{
-		new[i] = s1[i];
-		i++;
-	}
-	new[i] = '\0';
-	return (new);
-}
 
 char	*ft_strjoin(char *s1, char *s2)
 {

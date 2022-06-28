@@ -48,5 +48,7 @@ int		ft_isalpha(int c);
 void	*ft_bzero(void *s, size_t n);
 void	*ft_calloc(size_t count, size_t size);
 int		ft_minitalk_atoi(const char *str);
+int		count_str(const char *str, char c);
+int  ft_count(const char *s, char c);
 
 #endif

@@ -2,10 +2,15 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include "../libft/libft.h"
+#include "../gnl/get_next_line.h"
+#include "fdf.h"
+
+
+
 
 void	ft_error(char *str)
 {
-	perror(str);
+	ft_putendl_fd(str, 2);
 	exit(1);
 }
 
@@ -36,7 +41,32 @@ void	ft_check_args(int argc, char **argv)
 		ft_error("wrong name");
 }
 
-void	rec_checker(int fd)
+t_map	rec_checker(char *file_name)
 {
-	
+	char	*line;
+	int		col_count;
+	int		row_count;
+	t_map	map;
+	int		fd;
+
+	fd = ft_open_file(file_name);
+	line = get_next_line(fd);
+	col_count = ft_count(line, ' ');
+	row_count = 0;
+	while (line)
+	{
+		if (ft_count(line, ' ') != col_count)
+			ft_error("invalid map");
+		++row_count;
+		free(line);
+		line = get_next_line(fd);
+	}
+	close(fd);
+	free(line);
+	line = NULL; //지워도 됨
+	map.width = col_count;
+	map.height = row_count;
+	printf("col : %d, row  %d\n", map.width, map.height);
+	return (map);
 }
+
