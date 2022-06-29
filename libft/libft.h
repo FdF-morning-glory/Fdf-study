@@ -14,6 +14,7 @@
 # define LIBFT_H
 
 # include <stdlib.h>
+# include "get_next_line.h"
 
 int		ft_atoi(const char *str);
 void	*ft_memcpy(void *dst, const void *src, size_t n);

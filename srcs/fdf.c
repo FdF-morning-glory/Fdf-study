@@ -1,4 +1,3 @@
-#include "../gnl/get_next_line.h"
 #include "../libft/libft.h"
 #include <fcntl.h>
 #include <math.h>
@@ -29,7 +28,16 @@ int	main(int argc, char **argv)
 	// ft_check_args(argc, argv);
 	map = malloc(sizeof(t_map));
 	*map = rec_checker(argv[1]);
-	// point = make_points(map, argv[1]);
+	point = make_points(map, argv[1]);
+
+
+	// for (int i = 0; i < map->height; ++i)
+	// {
+	// 	for (int j = 0; j < map->width; ++j)
+	// 	{
+	// 		printf("x: %d, y: %d, z: %d\n", j, i, point[i][j].z);
+	// 	}
+	// }
 
 
 	/*---------파싱부 ----------*/

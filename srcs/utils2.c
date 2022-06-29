@@ -1,16 +1,28 @@
 #include "fdf.h"
 #include "../libft/libft.h"
 #include <stdlib.h>
+#include <fcntl.h>
 
-
-void	get_one_line(char * a_line, int width)
+void	get_one_line(t_point *point, char *a_line, int width)
 {
-	while(j < width)
-	
-		while (*a_line == ' ')
-			a_line++
-		pointer[j] = atoi(스페이스 를 만났을때 값을 뱉게)
-	
+	char	**split;
+	int		i;
+	char	**tmp;
+
+	i = 0;
+	split = ft_split(a_line, ' ');
+	while(i < width)
+	{
+		point[i].z = ft_atoi(split[i]);
+		i++;
+	}
+	tmp = split;
+	while(*split)
+	{
+		free(*split);
+		split++;
+	}
+	free(tmp);
 }
 
 t_point	**create_points(t_map *map)
@@ -31,13 +43,21 @@ t_point	**create_points(t_map *map)
 t_point	**make_points(t_map *map, char *file_name)
 {
 	t_point	**point;
+	int		i;
+	int		fd;
+	char	*line;
 
 	point = create_points(map);
-	//매트릭스 채우기(한줄씩)
-
+	fd = ft_open_file(file_name);
+	i = 0;
 	while(i < map->height)
 	{
-		get_one_line(gnl 결과물(개행기준) , );
+		line = get_next_line(fd);
+		get_one_line(point[i], line, map->width);
+		free(line);
 		i++;
 	}
+	close(fd);
+	return (point);
 }
+

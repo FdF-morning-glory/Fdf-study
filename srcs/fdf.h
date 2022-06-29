@@ -2,7 +2,7 @@
 # define FDF_H
 
 # define PI 3.14159
-# include <unistd.h> 
+# include <unistd.h>
 
 typedef struct	s_mlx
 {
@@ -39,5 +39,6 @@ int		ft_open_file(char *file_name);
 t_map	rec_checker(char *file_name);
 size_t	ft_word_count(char const *s, char const *set);
 int		is_set(char c, char const *set);
-
+t_point	**make_points(t_map *map, char *file_name);
+void	ft_isometric(int *x, int *y, int z);
 #endif
