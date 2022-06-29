@@ -5,9 +5,6 @@
 #include "../gnl/get_next_line.h"
 #include "fdf.h"
 
-
-
-
 void	ft_error(char *str)
 {
 	ft_putendl_fd(str, 2);
@@ -41,6 +38,7 @@ void	ft_check_args(int argc, char **argv)
 		ft_error("wrong name");
 }
 
+
 t_map	rec_checker(char *file_name)
 {
 	char	*line;
@@ -51,11 +49,11 @@ t_map	rec_checker(char *file_name)
 
 	fd = ft_open_file(file_name);
 	line = get_next_line(fd);
-	col_count = ft_count(line, ' ');
+	col_count = ft_word_count(line, " \t\n");
 	row_count = 0;
 	while (line)
 	{
-		if (ft_count(line, ' ') != col_count)
+		if (ft_word_count(line, " \t\n") != col_count)
 			ft_error("invalid map");
 		++row_count;
 		free(line);

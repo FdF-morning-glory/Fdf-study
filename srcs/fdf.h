@@ -2,6 +2,7 @@
 # define FDF_H
 
 # define PI 3.14159
+# include <unistd.h> 
 
 typedef struct	s_mlx
 {
@@ -23,9 +24,16 @@ typedef struct	s_map
 	int	height;
 }	t_map;
 
+typedef struct	s_
+{
+	/* data */
+};
+
+
 void	ft_error(char *str);
 void	ft_check_args(int argc, char **argv);
 int		ft_open_file(char *file_name);
 t_map	rec_checker(char *file_name);
+size_t	ft_word_count(char const *s, char const *set);
 
 #endif
