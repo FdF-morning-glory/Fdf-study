@@ -23,11 +23,12 @@
 int	main(int argc, char **argv)
 {
 	int		fd;
-	t_map	map;
+	t_map	*map;
 	t_point	**point;
 
 	// ft_check_args(argc, argv);
-	map = rec_checker(argv[1]);
+	map = malloc(sizeof(t_map));
+	*map = rec_checker(argv[1]);
 	// point = make_points(map, argv[1]);
 
 

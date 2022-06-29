@@ -24,10 +24,13 @@ typedef struct	s_map
 	int	height;
 }	t_map;
 
-typedef struct	s_
+typedef struct	s_handler
 {
-	/* data */
-};
+	double	scale;
+	double	angle;
+	double	delta_x;
+	double	delta_y;
+}	t_handler;
 
 
 void	ft_error(char *str);
@@ -35,5 +38,6 @@ void	ft_check_args(int argc, char **argv);
 int		ft_open_file(char *file_name);
 t_map	rec_checker(char *file_name);
 size_t	ft_word_count(char const *s, char const *set);
+int		is_set(char c, char const *set);
 
 #endif

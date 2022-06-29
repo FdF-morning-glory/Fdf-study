@@ -6,14 +6,14 @@
 /*   By: surlee <surlee@student.42.seoul.kr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:03:02 by hogkim            #+#    #+#             */
-/*   Updated: 2022/06/29 13:25:55 by surlee           ###   ########.fr       */
+/*   Updated: 2022/06/29 13:51:50 by sesim            ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "fdf.h"
 #include <unistd.h>
 
-static int	is_set(char c, char const *set)
+int	is_set(char c, char const *set)
 {
 	int	i;
 
