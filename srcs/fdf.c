@@ -31,13 +31,13 @@ int	main(int argc, char **argv)
 	point = make_points(map, argv[1]);
 
 
-	// for (int i = 0; i < map->height; ++i)
-	// {
-	// 	for (int j = 0; j < map->width; ++j)
-	// 	{
-	// 		printf("x: %d, y: %d, z: %d\n", j, i, point[i][j].z);
-	// 	}
-	// }
+	for (int i = 0; i < map->height; ++i)
+	{
+		for (int j = 0; j < map->width; ++j)
+		{
+			printf("x: %f, y: %f, z: %d\n", point[i][j].iso_x, point[i][j].iso_y, point[i][j].z);
+		}
+	}
 
 
 	/*---------파싱부 ----------*/

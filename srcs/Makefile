@@ -7,3 +7,6 @@ test2:
 	cc *.c ../libft/libft.a 
 	./a.out ../test_maps/10-2.fdf
 	rm -rf ./a.out
+
+test3:
+	cc *.c ../libft/libft.a 

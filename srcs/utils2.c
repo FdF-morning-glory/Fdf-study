@@ -3,17 +3,21 @@
 #include <stdlib.h>
 #include <fcntl.h>
 
-void	get_one_line(t_point *point, char *a_line, int width)
+void	get_one_line(t_point *point, int y, char *a_line, int width)
 {
 	char	**split;
 	int		i;
 	char	**tmp;
+	int		x;
 
 	i = 0;
 	split = ft_split(a_line, ' ');
 	while(i < width)
 	{
+		point[i].iso_x = i;
+		point[i].iso_y = y;
 		point[i].z = ft_atoi(split[i]);
+		ft_isometric(&point[i].iso_x, &point[i].iso_y, point[i].z);
 		i++;
 	}
 	tmp = split;
@@ -53,7 +57,7 @@ t_point	**make_points(t_map *map, char *file_name)
 	while(i < map->height)
 	{
 		line = get_next_line(fd);
-		get_one_line(point[i], line, map->width);
+		get_one_line(point[i], i, line, map->width);
 		free(line);
 		i++;
 	}
