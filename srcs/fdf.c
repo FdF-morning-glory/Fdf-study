@@ -119,10 +119,13 @@ void	bresenham_x(int start_x, int start_y, int finish_x, int finish_y, void *mlx
 	int	x;
 	int	y;
 	int	formula;
-	int Yfactor = finish_y < start_y ? -1 : 1;
-	int Xfactor = finish_x < start_x ? -1 : 1;
-	width = abs(finish_x - start_x);
-	height = abs(finish_y - start_y);
+	int Yfactor;
+	Yfactor = 1;
+	if (height < 0)
+	{
+		Yfactor = -1;
+		height *= -1;
+	}
 	x = start_x;
 	y = start_y;
 	formula = 2 * height - width;
@@ -136,7 +139,7 @@ void	bresenham_x(int start_x, int start_y, int finish_x, int finish_y, void *mlx
 			formula += 2 * (height - width);
 		}
 		mlx_pixel_put(mlx, window, x + 300 , y + 300, 0xFFFF00);
-		x += Xfactor;
+		x += 1;
 	}
 }
 
@@ -147,11 +150,16 @@ void	bresenham_y(int start_x, int start_y, int finish_x, int finish_y, void *mlx
 	int	x;
 	int	y;
 	int	formula;
-	int Yfactor = finish_y < start_y ? -1 : 1;
-	int Xfactor = finish_x < start_x ? -1 : 1;
+	int Xfactor;
+	width = finish_x - start_x;
+	height = finish_y - start_y;
+	Xfactor = 1;
+	if (width < 0)
+	{
+		Xfactor = -1;
+		width *= -1;
+	}
 
-	width = abs(finish_x - start_x);
-	height = abs(finish_y - start_y);
 	x = start_x;
 	y = start_y;
 	formula = 2 * width - height;
@@ -165,7 +173,7 @@ void	bresenham_y(int start_x, int start_y, int finish_x, int finish_y, void *mlx
 			formula += 2 * (width - height);
 		}
 		mlx_pixel_put(mlx, window, x + 300 , y + 300, 0x00FF00);
-		y += Yfactor;
+		y += 1;
 	}
 }
 
@@ -181,9 +189,19 @@ void	bresenham(int start_x, int start_y, int finish_x, int finish_y, void *mlx, 
 	height = abs(finish_y - start_y);
 	printf("x: %d, y: %d\n", start_x, start_y);
 	if (width > height)
-		bresenham_x(start_x, start_y, finish_x, finish_y, mlx, window);
+	{
+		if (start_x > finish_x)
+			bresenham_x(finish_x, finish_y, start_x, start_y, mlx, window);
+		else
+			bresenham_x(start_x, start_y, finish_x, finish_y, mlx, window);
+	}
 	else
-		bresenham_y(start_x, start_y, finish_x, finish_y, mlx, window);
+	{
+		if (start_y > finish_y)
+			bresenham_y(finish_x, finish_y, start_x, start_y, mlx, window);
+		else
+			bresenham_y(start_x, start_y, finish_x, finish_y, mlx, window);
+	}
 }
 
 
