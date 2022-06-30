@@ -25,7 +25,7 @@ void bba(int x1, int y1, int x2, int y2, void *mlx, void *win)
 	{
 		int y = y1;
 		int det = (2 * height) - width; // 점화식
-		for (int x = x1; x != x2; x += Xfactor)
+		for (int x = x1; x < x2; x += Xfactor)
 		{
 			if (det < 0) //판별
 			{
@@ -43,7 +43,7 @@ void bba(int x1, int y1, int x2, int y2, void *mlx, void *win)
 	{
 		int x = x1;
 		int det2 = (2 * width) - height; // 점화식
-		for (int y = y1; y != y2; y+= Yfactor)
+		for (int y = y1; y < y2; y+= Yfactor)
 		{
 			if (det2 < 0)
 			{
@@ -112,31 +112,78 @@ void	bresenham2(int start_y, int start_x, int finish_y, int finish_x, void *mlx,
 	}
 }
 
-void	bresenham(double start_x, double start_y, double finish_x, double finish_y, void *mlx, void *window)
+void	bresenham_x(int start_x, int start_y, int finish_x, int finish_y, void *mlx, void *window)
 {
 	int width;
 	int height;
-	double	x;
-	double	y;
+	int	x;
+	int	y;
 	int	formula;
-
-	width = (finish_x - start_x);
-	height = (finish_y - start_y);
+	int Yfactor = finish_y < start_y ? -1 : 1;
+	int Xfactor = finish_x < start_x ? -1 : 1;
+	width = abs(finish_x - start_x);
+	height = abs(finish_y - start_y);
 	x = start_x;
 	y = start_y;
 	formula = 2 * height - width;
 	while (x < finish_x)
 	{
-		if (formula > 0)
+		if (formula < 0)
 			formula += (2 * height);
 		else
 		{
-			++y;
+			y += Yfactor;
 			formula += 2 * (height - width);
 		}
 		mlx_pixel_put(mlx, window, x + 300 , y + 300, 0xFFFF00);
-		++x;
+		x += Xfactor;
 	}
+}
+
+void	bresenham_y(int start_x, int start_y, int finish_x, int finish_y, void *mlx, void *window)
+{
+	int width;
+	int height;
+	int	x;
+	int	y;
+	int	formula;
+	int Yfactor = finish_y < start_y ? -1 : 1;
+	int Xfactor = finish_x < start_x ? -1 : 1;
+
+	width = abs(finish_x - start_x);
+	height = abs(finish_y - start_y);
+	x = start_x;
+	y = start_y;
+	formula = 2 * width - height;
+	while (y != finish_y)
+	{
+		if (formula < 0)
+			formula += (2 * width);
+		else
+		{
+			x += Xfactor;
+			formula += 2 * (width - height);
+		}
+		mlx_pixel_put(mlx, window, x + 300 , y + 300, 0x00FF00);
+		y += Yfactor;
+	}
+}
+
+
+void	bresenham(int start_x, int start_y, int finish_x, int finish_y, void *mlx, void *window)
+{
+	int width;
+	int height;
+	int	x;
+	int	y;
+
+	width = abs(finish_x - start_x);
+	height = abs(finish_y - start_y);
+	printf("x: %d, y: %d\n", start_x, start_y);
+	if (width > height)
+		bresenham_x(start_x, start_y, finish_x, finish_y, mlx, window);
+	else
+		bresenham_y(start_x, start_y, finish_x, finish_y, mlx, window);
 }
 
 
@@ -158,16 +205,16 @@ int	main(int argc, char **argv)
 	{
 		for (int j = 1; j < map->width; ++j)
 		{
-			bresenham(10 * point[i][j - 1].iso_x, 10 * point[i][j - 1].iso_y, 10 * point[i][j].iso_x, 10 * point[i][j].iso_y, mlx.mlx, mlx.win);
+			bresenham(30 * point[i][j - 1].iso_x, 30 * point[i][j - 1].iso_y, 30 * point[i][j].iso_x, 30 * point[i][j].iso_y, mlx.mlx, mlx.win);
 		}
 	}
-	for (int i = 1; i < map->height; ++i)
-	{
-		for (int j = 0; j < map->width; ++j)
-		{
-			bresenham(10 * point[i - 1][j].iso_x, 10 * point[i - 1][j].iso_y, 10 * point[i][j].iso_x, 10 * point[i][j].iso_y, mlx.mlx, mlx.win);
-		}
-	}
+	// for (int i = 1; i < map->height; ++i)
+	// {
+	// 	for (int j = 0; j < map->width; ++j)
+	// 	{
+	// 		bresenham(25 * point[i - 1][j].iso_x, 25 * point[i - 1][j].iso_y, 25 * point[i][j].iso_x, 25 * point[i][j].iso_y, mlx.mlx, mlx.win);
+	// 	}
+	// }
 	mlx_loop(mlx.mlx);
 	return (0);
 	// for (int i = 0; i < map->height; ++i)
