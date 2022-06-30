@@ -59,63 +59,10 @@ void bba(int x1, int y1, int x2, int y2, void *mlx, void *win)
 	}
 }
 
-void	dda(double x1, double y1, double x2, double y2, void *mlx, void *window)
-{
-	double dx, dy, xinc, yinc, step, i = 0.0;
-
-    dx = x2 - x1;
-    dy = y2 - y1;
-    // dx는 x좌표의 차이, dy는 y좌표의 차이
-
-    if (abs(dx) > abs(dy))
-    	step = abs(dx);
-    else
-    	step = abs(dy);
-    // dx > dy : 기울기가 1보다 작을경우
-    // dx < dy : 기울기가 1보다 클 경우
-
-    xinc = dx / step;
-    yinc = dy / step;
-    while (i <= step)
-    {
-		mlx_pixel_put(mlx, window, x1 + 300, y1 + 300, 0xFFFF00);
-        x1 = x1 + xinc;
-        y1 = y1 + yinc;
-		i += 1;
-    }
-}
-
-void	bresenham2(int start_y, int start_x, int finish_y, int finish_x, void *mlx, void *window)
-{
-	int width;
-	int height;
-	int	x;
-	int	y;
-	int	formula;
-
-	width = (finish_x - start_x);
-	height = (finish_y - start_y);
-	x = start_x;
-	y = start_y;
-	formula = 2 * height - width;
-	while (x < finish_x)
-	{
-		if (formula > 0)
-			formula += (2 * height);
-		else
-		{
-			++y;
-			formula += 2 * (height - width);
-		}
-		mlx_pixel_put(mlx, window, y + 300 , x + 300, 0xFFFF00);
-		++x;
-	}
-}
-
 void	bresenham(double start_x, double start_y, double finish_x, double finish_y, void *mlx, void *window)
 {
-	int width;
-	int height;
+	double width;
+	double height;
 	double	x;
 	double	y;
 	int	formula;
@@ -127,7 +74,7 @@ void	bresenham(double start_x, double start_y, double finish_x, double finish_y,
 	formula = 2 * height - width;
 	while (x < finish_x)
 	{
-		if (formula > 0)
+		if (formula < 0)
 			formula += (2 * height);
 		else
 		{
