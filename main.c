@@ -51,18 +51,18 @@
 // void	dda(float x1, float y1, float x2, float y2, void *mlx, void *window, int n)
 // {
 // 	float dx, dy, xinc, yinc, step, i = 0.0;
-​
+
 //     dx = x2 - x1;
 //     dy = y2 - y1;
 //     // dx는 x좌표의 차이, dy는 y좌표의 차이
-​
+
 //     if (abs(dx) > abs(dy))
 //     	step = abs(dx);
 //     else
 //     	step = abs(dy);
 //     // dx > dy : 기울기가 1보다 작을경우
 //     // dx < dy : 기울기가 1보다 클 경우
-​
+
 //     xinc = dx / step;
 //     yinc = dy / step;
 //     while (i <= step)
@@ -81,7 +81,7 @@ static void	ft_isometric(int *x, int *y, int z)
 {
 	int	prev_x;
 	int	prev_y;
-​
+
 	prev_x = *x;
 	prev_y = *y;
 	*x = (prev_x - prev_y) * cos(M_PI/6);
@@ -128,10 +128,10 @@ int main()
 {
 	void	*mlx;
 	void	*window;
-​
+
 	mlx = mlx_init();
 	window = mlx_new_window(mlx, 700, 1500, "FdF");
-​
+
 	print_pixel(100,0,0,mlx, window);
 	print_pixel(0,-100,0,mlx, window);
 	print_pixel(100,-100,0,mlx, window);
@@ -140,10 +140,10 @@ int main()
 	print_pixel(0,0,100,mlx, window);
 	print_pixel(0,-100,100,mlx, window);
 	print_pixel(0,0,0,mlx, window);
-​
+
 	//브리즈먼(선그리기)
 	bresenham(0,-100, 100, -100, mlx, window);
-​
+
 	mlx_loop(mlx);
 	return (0);
 }

@@ -12,7 +12,7 @@
 
 #include "libft.h"
 
-static int	count_str(const char *str, char c)
+int	count_str(const char *str, char c)
 {
 	size_t	i;
 	size_t	cnt;
@@ -33,6 +33,44 @@ static int	count_str(const char *str, char c)
 		i++;
 	}
 	return (cnt);
+}
+static char	*ft_strchr(const char *s, int c)
+{
+	size_t	i;
+
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == (char)c)
+			return ((char *)&s[i]);
+		i++;
+	}
+	if (c == 0)
+		return ((char *)&s[i]);
+	return (NULL);
+}
+
+int  ft_count(const char *s, char c)
+{
+    int count;
+    int i;
+    int slen;
+    count = 0;
+    i = 0;
+    slen = (int)ft_strlen(s);
+    if (slen == 0)
+        return (0);
+    while (s[i] != '\0')
+    {
+        if (s[i] == c && s[i + 1] != c)
+            count++;
+        i++;
+    }
+    if (ft_strchr(s, c) == s && ft_strrchr(s, c) == s + (slen - 1))
+        return (count - 1);
+    if (!(ft_strchr(s, c) == s) && !(ft_strrchr(s, c) == s + (slen - 1)))
+        return (count + 1);
+    return (count);
 }
 
 static size_t	put_str(char **arr, const char *str, char c, size_t cnt)

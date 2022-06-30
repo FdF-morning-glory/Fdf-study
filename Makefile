@@ -12,7 +12,7 @@
 
 NAME = main
 
-CC = cc
+CC = gcc
 
 CFLAGS = -Wall -Wextra -Werror
 
@@ -35,11 +35,11 @@ endif
 all: $(NAME)
 
 %.o : %.c
-	$(CC) $(CFLAGS) -c -o $@ $<
+	$(CC) -c -o $@ $<
 
 $(NAME): $(OBJS)
 	make -C $(LIBFT_DIR)
-	$(CC) -o main $(OBJS) -L ./minilibx_macos -lmlx -L ./libft -lft -framework OpenGL -framework AppKit -g3 -fsanitize=address
+	$(CC) -o main $(OBJS) -L ./minilibx_macos -lmlx -L ./libft -lft -g3 -fsanitize=address
 
 bonus:
 	make BONUS_FLAG=1 all
@@ -55,8 +55,6 @@ fclean: clean
 re:
 	make fclean
 	make all
-test: all
-	./main
-	rm ./main
+# test: all
 
 .PHONY: bonus all clean fclean re
