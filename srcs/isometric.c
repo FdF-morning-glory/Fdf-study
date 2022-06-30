@@ -1,9 +1,9 @@
 #include "math.h"
 
-void	ft_isometric(int *x, int *y, int z)
+void	ft_isometric(double *x, double *y, int z)
 {
-	int	prev_x;
-	int	prev_y;
+	double	prev_x;
+	double	prev_y;
 
 	prev_x = *x;
 	prev_y = *y;

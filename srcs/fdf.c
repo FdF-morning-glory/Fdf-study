@@ -1,6 +1,7 @@
 #include "../libft/libft.h"
-#include <fcntl.h>
-#include <math.h>
+#include "../minilibx_macos/mlx.h"
+//#include <fcntl.h>
+//#include <math.h>
 #include <stdio.h>
 
 	// int fd;
@@ -21,15 +22,16 @@
 
 int	main(int argc, char **argv)
 {
-	int		fd;
-	t_map	*map;
-	t_point	**point;
+	int			fd;
+	t_map		*map;
+	t_point		**point;
+	t_handler	*handler;
+	t_mlx		*mlx_info;
 
 	// ft_check_args(argc, argv);
 	map = malloc(sizeof(t_map));
 	*map = rec_checker(argv[1]);
 	point = make_points(map, argv[1]);
-
 
 	for (int i = 0; i < map->height; ++i)
 	{
@@ -38,7 +40,11 @@ int	main(int argc, char **argv)
 			printf("x: %f, y: %f, z: %d\n", point[i][j].iso_x, point[i][j].iso_y, point[i][j].z);
 		}
 	}
+	handler = set_handler();
+	mlx_info = set_mlx_info();
+	draw(point, map, handler, mlx_info);
 
+	//mlx_loop(mlx_info->mlx);
 
 	/*---------파싱부 ----------*/
 	//예외처리(인자 argc / 확장자 fdf)
