@@ -34,7 +34,7 @@ void	bresenham_x(int start_x, int start_y, int finish_x, int finish_y, void *mlx
 			y += Yfactor;
 			formula += 2 * (height - width);
 		}
-		mlx_pixel_put(mlx, window, x + 300 , y + 300, 0xFFFF00);
+		mlx_pixel_put(mlx, window, x + 600 , y + 100, 255);
 		x += 1;
 	}
 }
@@ -68,7 +68,7 @@ void	bresenham_y(int start_x, int start_y, int finish_x, int finish_y, void *mlx
 			x += Xfactor;
 			formula += 2 * (width - height);
 		}
-		mlx_pixel_put(mlx, window, x + 300 , y + 300, 0x00FF00);
+		mlx_pixel_put(mlx, window, x + 600 , y + 100, 0x00FF00);
 		y += 1;
 	}
 }
@@ -102,6 +102,18 @@ void	bresenham(int start_x, int start_y, int finish_x, int finish_y, void *mlx, 
 	}
 }
 
+int	key_press(int keycode)
+{
+	if (keycode == KEY_ESC) //Quit the program when ESC key pressed
+		exit(0);
+	return (0);
+}
+
+void	set_mlx(t_mlx *mlx)
+{
+	mlx->mlx = mlx_init();
+	mlx->win = mlx_new_window(mlx->mlx, 1600, 900, "FdF");
+}
 
 int	main(int argc, char **argv)
 {
@@ -110,27 +122,27 @@ int	main(int argc, char **argv)
 	t_point	**point;
 	t_mlx	mlx;
 
-	mlx.mlx = mlx_init();
-	mlx.win = mlx_new_window(mlx.mlx, 1000, 1000, "FdF");
-	// ft_check_args(argc, argv);
+	set_mlx(&mlx);
 	map = malloc(sizeof(t_map));
 	*map = rec_checker(argv[1]);
 	point = make_points(map, argv[1]);
+
 
 	for (int i = 0; i < map->height; ++i)
 	{
 		for (int j = 1; j < map->width; ++j)
 		{
-			bresenham(10 * point[i][j - 1].iso_x, 10 * point[i][j - 1].iso_y, 10 * point[i][j].iso_x, 10 * point[i][j].iso_y, mlx.mlx, mlx.win);
+			bresenham(25 * point[i][j - 1].iso_x, 25 * point[i][j - 1].iso_y, 25 * point[i][j].iso_x, 25 * point[i][j].iso_y, mlx.mlx, mlx.win);
 		}
 	}
 	for (int i = 1; i < map->height; ++i)
 	{
 		for (int j = 0; j < map->width; ++j)
 		{
-			bresenham(10 * point[i - 1][j].iso_x, 10 * point[i - 1][j].iso_y, 10 * point[i][j].iso_x, 10 * point[i][j].iso_y, mlx.mlx, mlx.win);
+			bresenham(25 * point[i - 1][j].iso_x, 25 * point[i - 1][j].iso_y, 25 * point[i][j].iso_x, 25 * point[i][j].iso_y, mlx.mlx, mlx.win);
 		}
 	}
+	mlx_hook(mlx.win, X_EVENT_KEY_PRESS, 0, key_press, 0);
 	mlx_loop(mlx.mlx);
 	return (0);
 	// for (int i = 0; i < map->height; ++i)

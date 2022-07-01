@@ -4,11 +4,20 @@
 # define PI 3.14159
 # include <unistd.h>
 
+typedef struct	s_handler
+{
+	double	scale;
+	double	angle;
+	int		delta_x;
+	int		delta_y;
+}	t_handler;
+
 typedef struct	s_mlx
 {
-	void	*mlx;
-	void	*win;
-	void	*img;
+	void		*mlx;
+	void		*win;
+	void		*img;
+	t_handler	handler;
 }	t_mlx;
 
 typedef struct	s_point
@@ -24,14 +33,20 @@ typedef struct	s_map
 	int	height;
 }	t_map;
 
-typedef struct	s_handler
-{
-	double	scale;
-	double	angle;
-	double	delta_x;
-	double	delta_y;
-}	t_handler;
 
+#define X_EVENT_KEY_PRESS 2
+# define KEY_ESC 53
+# define KEY_UP 126
+# define KEY_DOWN 125
+# define KEY_LEFT 123
+# define KEY_RIGHT 124
+# define KEY_Q 12
+# define KEY_W 13
+# define KEY_E 14
+# define KEY_R 15
+# define KEY_A 0
+# define KEY_S 1
+# define KEY_D 2
 
 void	ft_error(char *str);
 void	ft_check_args(int argc, char **argv);
