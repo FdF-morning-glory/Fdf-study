@@ -5,6 +5,38 @@
 #include <stdio.h>
 #include "fdf.h"
 
+void	rotate_x(int y, int x, t_point ***point, double angle)
+{
+	double	prev_y;
+	double	prev_z;
+
+	prev_y = y;
+	prev_z = point[y][x]->z;
+	point[y][x]->iso_y = prev_y * cos(angle * M_PI / 180) + prev_z * sin(angle * M_PI / 180);
+	point[y][x]->z = -prev_y * sin(angle * M_PI / 180) + prev_z * cos(angle * M_PI / 180);
+	ft_isometric(&(point[y][x]->iso_x), &(point[y][x]->iso_y), point[y][x]->z);
+}
+
+void	rotate_y(double *x, double *z, double angle)
+{
+	double	prev_x;
+
+	prev_x = *x;
+	*x = prev_x * cos(angle * M_PI / 180) + (*z) * sin(angle);
+	*z = -prev_x * sin(angle) + (*z) * cos(angle);
+}
+
+void	rotate_z(double *x, double *y, double angle)
+{
+	double	prev_x;
+	double	prev_y;
+
+	prev_x = *x;
+	prev_y = *y;
+	*x = prev_x * cos(angle) - prev_y * sin(angle);
+	*y = prev_x * sin(angle) + prev_y * cos(angle);
+}
+
 void	bresenham_x(int start_x, int start_y, int finish_x, int finish_y, t_mlx mlx)
 {
 	int width;
@@ -114,6 +146,13 @@ int	key_press(int keycode, t_mlx *mlx)
 		--(mlx->handler.delta_x);
 	else if (keycode == KEY_RIGHT)
 		++(mlx->handler.delta_x);
+	else if (keycode == KEY_Q)
+		++(mlx->handler.scale);
+	else if (keycode == KEY_E)
+		--(mlx->handler.scale);
+	else if (keycode == KEY_A)
+		++(mlx->handler.angle);
+
 	return (0);
 }
 
@@ -162,6 +201,7 @@ int	main_loop(t_all all)
 	{
 		for (int j = 1; j < map->width; ++j)
 		{
+			rotate_x(i, j, &point, mlx.handler.angle);
 			bresenham(mlx.handler.scale * point[i][j - 1].iso_x, mlx.handler.scale * point[i][j - 1].iso_y, mlx.handler.scale * point[i][j].iso_x, mlx.handler.scale * point[i][j].iso_y, mlx);
 		}
 	}
@@ -186,10 +226,11 @@ int	main(int argc, char **argv)
 	map = malloc(sizeof(t_map));
 	*map = rec_checker(argv[1]);
 	set_mlx(&mlx, map);
-	point = make_points(map, argv[1]);
+	point = make_points(map, argv[1], &mlx);
 	all.map = map;
 	all.mlx = &mlx;
 	all.point = &point;
+	all.mlx->handler.angle = 0;
 
 	mlx_hook(mlx.win, X_EVENT_KEY_PRESS, 0, key_press, &mlx);
 	mlx_loop_hook(mlx.mlx, main_loop, &all);
