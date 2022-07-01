@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "fdf.h"
 
-void	bresenham_x(int start_x, int start_y, int finish_x, int finish_y, void *mlx, void *window)
+void	bresenham_x(int start_x, int start_y, int finish_x, int finish_y, t_mlx mlx)
 {
 	int width;
 	int height;
@@ -34,12 +34,12 @@ void	bresenham_x(int start_x, int start_y, int finish_x, int finish_y, void *mlx
 			y += Yfactor;
 			formula += 2 * (height - width);
 		}
-		mlx_pixel_put(mlx, window, x + 600 , y + 100, 255);
+		mlx_pixel_put(mlx.mlx, mlx.win, x + mlx.handler.delta_x , y + mlx.handler.delta_y, 0x00FF00);
 		x += 1;
 	}
 }
 
-void	bresenham_y(int start_x, int start_y, int finish_x, int finish_y, void *mlx, void *window)
+void	bresenham_y(int start_x, int start_y, int finish_x, int finish_y, t_mlx mlx)
 {
 	int width;
 	int height;
@@ -68,13 +68,13 @@ void	bresenham_y(int start_x, int start_y, int finish_x, int finish_y, void *mlx
 			x += Xfactor;
 			formula += 2 * (width - height);
 		}
-		mlx_pixel_put(mlx, window, x + 600 , y + 100, 0x00FF00);
+		mlx_pixel_put(mlx.mlx, mlx.win, x + mlx.handler.delta_x , y + mlx.handler.delta_y, 0x00FF00);
 		y += 1;
 	}
 }
 
 
-void	bresenham(int start_x, int start_y, int finish_x, int finish_y, void *mlx, void *window)
+void	bresenham(int start_x, int start_y, int finish_x, int finish_y, t_mlx mlx)
 {
 	int width;
 	int height;
@@ -85,20 +85,20 @@ void	bresenham(int start_x, int start_y, int finish_x, int finish_y, void *mlx, 
 	height = (finish_y - start_y);
 	if (height < 0)
 		height *= -1;
-	printf("x: %d, y: %d\n", start_x, start_y);
+	// printf("x: %d, y: %d\n", start_x, start_y);
 	if (width > height)
 	{
 		if (start_x > finish_x)
-			bresenham_x(finish_x, finish_y, start_x, start_y, mlx, window);
+			bresenham_x(finish_x, finish_y, start_x, start_y, mlx);
 		else
-			bresenham_x(start_x, start_y, finish_x, finish_y, mlx, window);
+			bresenham_x(start_x, start_y, finish_x, finish_y, mlx);
 	}
 	else
 	{
 		if (start_y > finish_y)
-			bresenham_y(finish_x, finish_y, start_x, start_y, mlx, window);
+			bresenham_y(finish_x, finish_y, start_x, start_y, mlx);
 		else
-			bresenham_y(start_x, start_y, finish_x, finish_y, mlx, window);
+			bresenham_y(start_x, start_y, finish_x, finish_y, mlx);
 	}
 }
 
@@ -109,10 +109,34 @@ int	key_press(int keycode)
 	return (0);
 }
 
-void	set_mlx(t_mlx *mlx)
+void	set_mlx(t_mlx *mlx, t_map *map)
 {
 	mlx->mlx = mlx_init();
 	mlx->win = mlx_new_window(mlx->mlx, 1600, 900, "FdF");
+	if (map->width < 20)
+	{
+		mlx->handler.scale = 25;
+		mlx->handler.delta_x = 650;
+		mlx->handler.delta_y = 400;
+	}
+	else if (map->width < 50)
+	{
+		mlx->handler.scale = 20;
+		mlx->handler.delta_x = 800;
+		mlx->handler.delta_y = 200;
+	}
+	else if (map->width < 210)
+	{
+		mlx->handler.scale = 4;
+		mlx->handler.delta_x = 600;
+		mlx->handler.delta_y = 100;
+	}
+	else
+	{
+		mlx->handler.scale = 1;
+		mlx->handler.delta_x = 300;
+		mlx->handler.delta_y = 100;
+	}
 }
 
 int	main(int argc, char **argv)
@@ -122,9 +146,9 @@ int	main(int argc, char **argv)
 	t_point	**point;
 	t_mlx	mlx;
 
-	set_mlx(&mlx);
 	map = malloc(sizeof(t_map));
 	*map = rec_checker(argv[1]);
+	set_mlx(&mlx, map);
 	point = make_points(map, argv[1]);
 
 
@@ -132,14 +156,14 @@ int	main(int argc, char **argv)
 	{
 		for (int j = 1; j < map->width; ++j)
 		{
-			bresenham(25 * point[i][j - 1].iso_x, 25 * point[i][j - 1].iso_y, 25 * point[i][j].iso_x, 25 * point[i][j].iso_y, mlx.mlx, mlx.win);
+			bresenham(mlx.handler.scale * point[i][j - 1].iso_x, mlx.handler.scale * point[i][j - 1].iso_y, mlx.handler.scale * point[i][j].iso_x, mlx.handler.scale * point[i][j].iso_y, mlx);
 		}
 	}
 	for (int i = 1; i < map->height; ++i)
 	{
 		for (int j = 0; j < map->width; ++j)
 		{
-			bresenham(25 * point[i - 1][j].iso_x, 25 * point[i - 1][j].iso_y, 25 * point[i][j].iso_x, 25 * point[i][j].iso_y, mlx.mlx, mlx.win);
+			bresenham(mlx.handler.scale * point[i - 1][j].iso_x, mlx.handler.scale * point[i - 1][j].iso_y, mlx.handler.scale * point[i][j].iso_x, mlx.handler.scale * point[i][j].iso_y, mlx);
 		}
 	}
 	mlx_hook(mlx.win, X_EVENT_KEY_PRESS, 0, key_press, 0);
