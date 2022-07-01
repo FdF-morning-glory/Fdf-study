@@ -102,10 +102,18 @@ void	bresenham(int start_x, int start_y, int finish_x, int finish_y, t_mlx mlx)
 	}
 }
 
-int	key_press(int keycode)
+int	key_press(int keycode, t_mlx *mlx)
 {
 	if (keycode == KEY_ESC) //Quit the program when ESC key pressed
 		exit(0);
+	else if (keycode == KEY_UP)
+		--(mlx->handler.delta_y);
+	else if (keycode == KEY_DOWN)
+		++(mlx->handler.delta_y);
+	else if (keycode == KEY_LEFT)
+		--(mlx->handler.delta_x);
+	else if (keycode == KEY_RIGHT)
+		++(mlx->handler.delta_x);
 	return (0);
 }
 
@@ -139,19 +147,17 @@ void	set_mlx(t_mlx *mlx, t_map *map)
 	}
 }
 
-int	main(int argc, char **argv)
+int	main_loop(t_all all)
 {
-	int		fd;
-	t_map	*map;
-	t_point	**point;
-	t_mlx	mlx;
+	t_point **point;
+	t_mlx mlx;
+	t_map *map;
+	
+	point = *(all.point);
+	mlx = *(all.mlx);
+	map = all.map;
 
-	map = malloc(sizeof(t_map));
-	*map = rec_checker(argv[1]);
-	set_mlx(&mlx, map);
-	point = make_points(map, argv[1]);
-
-
+	mlx_clear_window(mlx.mlx, mlx.win);
 	for (int i = 0; i < map->height; ++i)
 	{
 		for (int j = 1; j < map->width; ++j)
@@ -166,7 +172,27 @@ int	main(int argc, char **argv)
 			bresenham(mlx.handler.scale * point[i - 1][j].iso_x, mlx.handler.scale * point[i - 1][j].iso_y, mlx.handler.scale * point[i][j].iso_x, mlx.handler.scale * point[i][j].iso_y, mlx);
 		}
 	}
-	mlx_hook(mlx.win, X_EVENT_KEY_PRESS, 0, key_press, 0);
+	return (0);
+}
+
+int	main(int argc, char **argv)
+{
+	int		fd;
+	t_map	*map;
+	t_point	**point;
+	t_mlx	mlx;
+	t_all	all;
+
+	map = malloc(sizeof(t_map));
+	*map = rec_checker(argv[1]);
+	set_mlx(&mlx, map);
+	point = make_points(map, argv[1]);
+	all.map = map;
+	all.mlx = &mlx;
+	all.point = &point;
+
+	mlx_hook(mlx.win, X_EVENT_KEY_PRESS, 0, key_press, &mlx);
+	mlx_loop_hook(mlx.mlx, main_loop, &all);
 	mlx_loop(mlx.mlx);
 	return (0);
 	// for (int i = 0; i < map->height; ++i)

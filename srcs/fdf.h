@@ -34,6 +34,13 @@ typedef struct	s_map
 }	t_map;
 
 
+typedef struct	s_all
+{
+	t_map		*map;
+	t_mlx		*mlx;
+	t_point		***point;
+}	t_all;
+
 #define X_EVENT_KEY_PRESS 2
 # define KEY_ESC 53
 # define KEY_UP 126
