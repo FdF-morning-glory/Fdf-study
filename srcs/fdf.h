@@ -24,7 +24,7 @@ typedef struct	s_mlx
 
 typedef struct	s_point
 {
-	int		z;
+	double		z;
 	double	rotated_z;
 	double	iso_x;
 	double	iso_y;
@@ -61,9 +61,13 @@ typedef struct	s_all
 # define KEY_2 19
 # define KEY_3 20
 
-void	rotate_x(int y, int z, t_point *point, double angle);
-void	rotate_y(int x, int z, t_point *point, double angle);
-void	rotate_z(int x, int y, t_point *point, double angle);
+void	rotate_x(double y, double z, t_point *point, double angle);
+void	rotate_y(double x, double z, t_point *point, double angle);
+void	rotate_z(double x, double y, t_point *point, double angle);
+
+// void	rotate_x(int y, int z, t_point *point, double angle);
+// void	rotate_y(int x, int z, t_point *point, double angle);
+// void	rotate_z(int x, int y, t_point *point, double angle);
 void	ft_error(char *str);
 void	ft_check_args(int argc, char **argv);
 int		ft_open_file(char *file_name);

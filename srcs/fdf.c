@@ -5,14 +5,14 @@
 #include <stdio.h>
 #include "fdf.h"
 
-void	bresenham_x(int start_x, int start_y, int finish_x, int finish_y, t_mlx mlx)
+void	bresenham_x(double start_x, double start_y, double finish_x, double finish_y, t_mlx mlx)
 {
-	int width;
-	int height;
-	int	x;
-	int	y;
-	int	formula;
-	int Yfactor;
+	double width;
+	double height;
+	double	x;
+	double	y;
+	double	formula;
+	double Yfactor;
 
 	width = finish_x - start_x;
 	height = finish_y - start_y;
@@ -39,14 +39,14 @@ void	bresenham_x(int start_x, int start_y, int finish_x, int finish_y, t_mlx mlx
 	}
 }
 
-void	bresenham_y(int start_x, int start_y, int finish_x, int finish_y, t_mlx mlx)
+void	bresenham_y(double start_x, double start_y, double finish_x, double finish_y, t_mlx mlx)
 {
-	int width;
-	int height;
-	int	x;
-	int	y;
-	int	formula;
-	int Xfactor;
+	double width;
+	double height;
+	double	x;
+	double	y;
+	double	formula;
+	double Xfactor;
 	width = finish_x - start_x;
 	height = finish_y - start_y;
 	Xfactor = 1;
@@ -59,7 +59,8 @@ void	bresenham_y(int start_x, int start_y, int finish_x, int finish_y, t_mlx mlx
 	x = start_x;
 	y = start_y;
 	formula = 2 * width - height;
-	while (y != finish_y)
+	//while (y != finish_y)
+	while (y < finish_y)
 	{
 		if (formula < 0)
 			formula += (2 * width);
@@ -74,10 +75,10 @@ void	bresenham_y(int start_x, int start_y, int finish_x, int finish_y, t_mlx mlx
 }
 
 
-void	bresenham(int start_x, int start_y, int finish_x, int finish_y, t_mlx mlx)
+void	bresenham(double start_x, double start_y, double finish_x, double finish_y, t_mlx mlx)
 {
-	int width;
-	int height;
+	double width;
+	double height;
 
 	width = (finish_x - start_x);
 	if (width < 0)
@@ -168,11 +169,18 @@ int	main_loop(t_all all)
 
 	for (int i = 0; i < map->height; ++i)
 	{
+		// for (int j = 0; j < map->width; ++j)
+		// {
+		// 	rotate_z(j, i, &point[i][j], mlx.handler.angle_z);
+		// 	rotate_y(j, point[i][j].z, &point[i][j], mlx.handler.angle_y);
+		// 	rotate_x(i, point[i][j].z, &point[i][j], mlx.handler.angle_x);
+		// 	ft_isometric(&point[i][j].iso_x, &point[i][j].iso_y, point[i][j].rotated_z);
+		// }
 		for (int j = 0; j < map->width; ++j)
 		{
-			rotate_x(i, point[i][j].z, &point[i][j], mlx.handler.angle_x);
-			rotate_y(j, point[i][j].z, &point[i][j], mlx.handler.angle_y);
 			rotate_z(j, i, &point[i][j], mlx.handler.angle_z);
+			rotate_y(point[i][j].iso_x, point[i][j].z, &point[i][j], mlx.handler.angle_y);
+			rotate_x(point[i][j].iso_y, point[i][j].rotated_z, &point[i][j], mlx.handler.angle_x);
 			ft_isometric(&point[i][j].iso_x, &point[i][j].iso_y, point[i][j].rotated_z);
 		}
 	}	
