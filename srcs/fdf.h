@@ -7,7 +7,9 @@
 typedef struct	s_handler
 {
 	double	scale;
-	double	angle;
+	double	angle_x;
+	double	angle_y;
+	double	angle_z;
 	int		delta_x;
 	int		delta_y;
 }	t_handler;
@@ -54,9 +56,9 @@ typedef struct	s_all
 # define KEY_A 0
 # define KEY_S 1
 # define KEY_D 2
-# define KEY_1 
-# define KEY_2 
-# define KEY_3 
+# define KEY_1 18
+# define KEY_2 19
+# define KEY_3 20
 
 void	ft_error(char *str);
 void	ft_check_args(int argc, char **argv);
@@ -65,5 +67,5 @@ t_map	rec_checker(char *file_name);
 size_t	ft_word_count(char const *s, char const *set);
 int		is_set(char c, char const *set);
 t_point	**make_points(t_map *map, char *file_name);
-void	ft_isometric(double *x, double *y, int z, int key);
+void	ft_isometric(double *x, double *y, int z);
 #endif

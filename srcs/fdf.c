@@ -114,6 +114,13 @@ int	key_press(int keycode, t_mlx *mlx)
 		--(mlx->handler.delta_x);
 	else if (keycode == KEY_RIGHT)
 		++(mlx->handler.delta_x);
+	else if (keycode == KEY_1)
+		++(mlx->handler.angle_x);
+	else if (keycode == KEY_2)
+		++(mlx->handler.angle_y);
+	else if (keycode == KEY_3)
+		++(mlx->handler.angle_z);
+
 	return (0);
 }
 
@@ -121,6 +128,7 @@ void	set_mlx(t_mlx *mlx, t_map *map)
 {
 	mlx->mlx = mlx_init();
 	mlx->win = mlx_new_window(mlx->mlx, 1600, 900, "FdF");
+	ft_bzero(&mlx->handler, sizeof(t_handler));
 	if (map->width < 20)
 	{
 		mlx->handler.scale = 25;
@@ -152,16 +160,18 @@ int	main_loop(t_all all)
 	t_point **point;
 	t_mlx mlx;
 	t_map *map;
-	
+
 	point = *(all.point);
 	mlx = *(all.mlx);
 	map = all.map;
-
 	mlx_clear_window(mlx.mlx, mlx.win);
 	for (int i = 0; i < map->height; ++i)
 	{
 		for (int j = 1; j < map->width; ++j)
 		{
+			rotate_x(&point, mlx.handler);
+			rotate_y(&point, mlx.handler);
+			rotate_z(&point, mlx.handler);
 			ft_isometric(&point[i]->iso_x, &point[i]->iso_y, point[i]->z);
 			bresenham(mlx.handler.scale * point[i][j - 1].iso_x, mlx.handler.scale * point[i][j - 1].iso_y, mlx.handler.scale * point[i][j].iso_x, mlx.handler.scale * point[i][j].iso_y, mlx);
 		}
