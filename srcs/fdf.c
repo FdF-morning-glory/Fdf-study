@@ -165,14 +165,21 @@ int	main_loop(t_all all)
 	mlx = *(all.mlx);
 	map = all.map;
 	mlx_clear_window(mlx.mlx, mlx.win);
+
+	for (int i = 0; i < map->height; ++i)
+	{
+		for (int j = 0; j < map->width; ++j)
+		{
+			rotate_x(i, point[i][j].z, &point[i][j], mlx.handler.angle_x);
+			rotate_y(j, point[i][j].z, &point[i][j], mlx.handler.angle_y);
+			rotate_z(j, i, &point[i][j], mlx.handler.angle_z);
+			ft_isometric(&point[i][j].iso_x, &point[i][j].iso_y, point[i][j].rotated_z);
+		}
+	}	
 	for (int i = 0; i < map->height; ++i)
 	{
 		for (int j = 1; j < map->width; ++j)
 		{
-			rotate_x(&point, mlx.handler);
-			rotate_y(&point, mlx.handler);
-			rotate_z(&point, mlx.handler);
-			ft_isometric(&point[i]->iso_x, &point[i]->iso_y, point[i]->z);
 			bresenham(mlx.handler.scale * point[i][j - 1].iso_x, mlx.handler.scale * point[i][j - 1].iso_y, mlx.handler.scale * point[i][j].iso_x, mlx.handler.scale * point[i][j].iso_y, mlx);
 		}
 	}
