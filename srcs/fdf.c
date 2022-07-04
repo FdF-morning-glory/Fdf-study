@@ -162,6 +162,7 @@ int	main_loop(t_all all)
 	{
 		for (int j = 1; j < map->width; ++j)
 		{
+			ft_isometric(&point[i]->iso_x, &point[i]->iso_y, point[i]->z);
 			bresenham(mlx.handler.scale * point[i][j - 1].iso_x, mlx.handler.scale * point[i][j - 1].iso_y, mlx.handler.scale * point[i][j].iso_x, mlx.handler.scale * point[i][j].iso_y, mlx);
 		}
 	}

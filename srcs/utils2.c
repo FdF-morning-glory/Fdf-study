@@ -17,7 +17,6 @@ void	get_one_line(t_point *point, int y, char *a_line, int width)
 		point[i].iso_x = i;
 		point[i].iso_y = y;
 		point[i].z = ft_atoi(split[i]);
-		ft_isometric(&point[i].iso_x, &point[i].iso_y, point[i].z);
 		i++;
 	}
 	tmp = split;
