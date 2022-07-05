@@ -116,9 +116,9 @@ int	key_press(int keycode, t_mlx *mlx)
 	else if (keycode == KEY_RIGHT)
 		++(mlx->handler.delta_x);
 	else if (keycode == KEY_Q)
-		++(mlx->handler.scale);
+		(mlx->handler.scale) += mlx->handler.scale * 0.1;
 	else if (keycode == KEY_W)
-		--(mlx->handler.scale);
+		(mlx->handler.scale) -= mlx->handler.scale * 0.1;
 	else if (keycode == KEY_1)
 		++(mlx->handler.angle_x);
 	else if (keycode == KEY_2)
