@@ -115,13 +115,49 @@ int	key_press(int keycode, t_mlx *mlx)
 		--(mlx->handler.delta_x);
 	else if (keycode == KEY_RIGHT)
 		++(mlx->handler.delta_x);
+	else if (keycode == KEY_Q)
+		++(mlx->handler.scale);
+	else if (keycode == KEY_W)
+		--(mlx->handler.scale);
 	else if (keycode == KEY_1)
 		++(mlx->handler.angle_x);
 	else if (keycode == KEY_2)
 		++(mlx->handler.angle_y);
 	else if (keycode == KEY_3)
 		++(mlx->handler.angle_z);
-
+	else if (keycode == KEY_4)
+		--(mlx->handler.angle_x);
+	else if (keycode == KEY_5)
+		--(mlx->handler.angle_y);
+	else if (keycode == KEY_6)
+		--(mlx->handler.angle_z);
+	else if (keycode == KEY_A)
+	{
+		mlx->handler.iso_projection = ON;
+		mlx->handler.parr_projection = OFF;
+		mlx->handler.angle_x = 0;
+		mlx->handler.angle_y = 0;
+		mlx->handler.angle_z = 0;
+	}
+	else if (keycode == KEY_S && mlx->handler.parr_projection == OFF)
+	{
+		mlx->handler.iso_projection = OFF;
+		mlx->handler.parr_projection = ON;
+		mlx->handler.angle_x = 0;
+		mlx->handler.angle_y = 0;
+		mlx->handler.angle_z = 0;
+	}
+	else if (keycode == KEY_S)
+	{
+		mlx->handler.iso_projection = OFF;
+		if (mlx->handler.parr_projection < 3)
+			++(mlx->handler.parr_projection);
+		else
+			mlx->handler.parr_projection = 1;
+		mlx->handler.angle_x = 0;
+		mlx->handler.angle_y = 0;
+		mlx->handler.angle_z = 0;
+	}
 	return (0);
 }
 
@@ -130,6 +166,8 @@ void	set_mlx(t_mlx *mlx, t_map *map)
 	mlx->mlx = mlx_init();
 	mlx->win = mlx_new_window(mlx->mlx, 1600, 900, "FdF");
 	ft_bzero(&mlx->handler, sizeof(t_handler));
+	mlx->handler.iso_projection = ON;
+	mlx->handler.parr_projection = OFF;
 	if (map->width < 20)
 	{
 		mlx->handler.scale = 25;
@@ -156,6 +194,33 @@ void	set_mlx(t_mlx *mlx, t_map *map)
 	}
 }
 
+void	parallel(t_point *point, t_handler handler)
+{
+	if (handler.parr_projection == 1)
+	{
+		point->iso_x = point->x;
+		point->iso_y = point->y;
+	}
+	else if(handler.parr_projection == 2)
+	{
+		point->iso_x = point->x;
+		point->iso_y = (point->z) * (-1);
+	}
+	else if(handler.parr_projection == 3)
+	{
+		point->iso_x = point->y;
+		point->iso_y = (point->z) * (-1);
+	}
+}
+
+void	projection(t_point *point, t_handler handler)
+{
+	if (handler.iso_projection == ON)
+		ft_isometric(&point->iso_x, &point->iso_y, point->rotated_z);
+	else
+		parallel(point, handler);
+}
+
 int	main_loop(t_all all)
 {
 	t_point **point;
@@ -169,19 +234,13 @@ int	main_loop(t_all all)
 
 	for (int i = 0; i < map->height; ++i)
 	{
-		// for (int j = 0; j < map->width; ++j)
-		// {
-		// 	rotate_z(j, i, &point[i][j], mlx.handler.angle_z);
-		// 	rotate_y(j, point[i][j].z, &point[i][j], mlx.handler.angle_y);
-		// 	rotate_x(i, point[i][j].z, &point[i][j], mlx.handler.angle_x);
-		// 	ft_isometric(&point[i][j].iso_x, &point[i][j].iso_y, point[i][j].rotated_z);
-		// }
 		for (int j = 0; j < map->width; ++j)
 		{
 			rotate_z(j, i, &point[i][j], mlx.handler.angle_z);
 			rotate_y(point[i][j].iso_x, point[i][j].z, &point[i][j], mlx.handler.angle_y);
 			rotate_x(point[i][j].iso_y, point[i][j].rotated_z, &point[i][j], mlx.handler.angle_x);
-			ft_isometric(&point[i][j].iso_x, &point[i][j].iso_y, point[i][j].rotated_z);
+			projection(&point[i][j], mlx.handler);
+			// ft_isometric(&point[i][j].iso_x, &point[i][j].iso_y, point[i][j].rotated_z);
 		}
 	}	
 	for (int i = 0; i < map->height; ++i)

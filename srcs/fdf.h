@@ -12,6 +12,8 @@ typedef struct	s_handler
 	double	angle_z;
 	int		delta_x;
 	int		delta_y;
+	int		iso_projection;
+	int		parr_projection;
 }	t_handler;
 
 typedef struct	s_mlx
@@ -24,7 +26,9 @@ typedef struct	s_mlx
 
 typedef struct	s_point
 {
-	double		z;
+	int			x;
+	int			y;
+	int			z;
 	double	rotated_z;
 	double	iso_x;
 	double	iso_y;
@@ -60,6 +64,12 @@ typedef struct	s_all
 # define KEY_1 18
 # define KEY_2 19
 # define KEY_3 20
+# define KEY_4 21
+# define KEY_5 22
+# define KEY_6 23
+
+# define ON 1
+# define OFF 0
 
 void	rotate_x(double y, double z, t_point *point, double angle);
 void	rotate_y(double x, double z, t_point *point, double angle);

@@ -14,8 +14,8 @@ void	get_one_line(t_point *point, int y, char *a_line, int width)
 	split = ft_split(a_line, ' ');
 	while(i < width)
 	{
-		point[i].iso_x = i;
-		point[i].iso_y = y;
+		point[i].x = i;
+		point[i].y = y;
 		point[i].z = ft_atoi(split[i]);
 		i++;
 	}
