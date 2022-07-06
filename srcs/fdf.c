@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "fdf.h"
 
-void	bresenham_x(double start_x, double start_y, double finish_x, double finish_y, t_mlx mlx)
+void	bresenham_x(double start_x, double start_y, double finish_x, double finish_y, t_all *all)
 {
 	double width;
 	double height;
@@ -34,12 +34,15 @@ void	bresenham_x(double start_x, double start_y, double finish_x, double finish_
 			y += Yfactor;
 			formula += 2 * (height - width);
 		}
-		mlx_pixel_put(mlx.mlx, mlx.win, x + mlx.handler.delta_x , y + mlx.handler.delta_y, 0x00FF00);
+		//all->img->data[(int) (y + x)] = 0x00FF00;
+		// all->img->data[(unsigned) (1600 * y + x)] = 0x00FF00;
+		all->img->data[(int)(1600 * (y + all->mlx->handler.delta_y) + x + all->mlx->handler.delta_x)] = 0xFFFFFF;
+		// mlx_pixel_put(mlx.mlx, mlx.win, x + mlx.handler.delta_x , y + mlx.handler.delta_y, 0x00FF00);
 		x += 1;
 	}
 }
 
-void	bresenham_y(double start_x, double start_y, double finish_x, double finish_y, t_mlx mlx)
+void	bresenham_y(double start_x, double start_y, double finish_x, double finish_y, t_all *all)
 {
 	double width;
 	double height;
@@ -68,13 +71,14 @@ void	bresenham_y(double start_x, double start_y, double finish_x, double finish_
 			x += Xfactor;
 			formula += 2 * (width - height);
 		}
-		mlx_pixel_put(mlx.mlx, mlx.win, x + mlx.handler.delta_x , y + mlx.handler.delta_y, 0x00FF00);
+		all->img->data[(unsigned int) (1600 * (y + all->mlx->handler.delta_y) + x + all->mlx->handler.delta_x)] = 0x00FF00;
+		// mlx_pixel_put(mlx.mlx, mlx.win, x + mlx.handler.delta_x , y + mlx.handler.delta_y, 0x00FF00);
 		y += 1;
 	}
 }
 
 
-void	bresenham(double start_x, double start_y, double finish_x, double finish_y, t_mlx mlx)
+void	bresenham(double start_x, double start_y, double finish_x, double finish_y, t_all *all)
 {
 	double width;
 	double height;
@@ -85,21 +89,21 @@ void	bresenham(double start_x, double start_y, double finish_x, double finish_y,
 	height = (finish_y - start_y);
 	if (height < 0)
 		height *= -1;
-	// printf("x: %d, y: %d\n", start_x, start_y);
 	if (width > height)
 	{
 		if (start_x > finish_x)
-			bresenham_x(finish_x, finish_y, start_x, start_y, mlx);
+			bresenham_x(finish_x, finish_y, start_x, start_y, all);
 		else
-			bresenham_x(start_x, start_y, finish_x, finish_y, mlx);
+			bresenham_x(start_x, start_y, finish_x, finish_y, all);
 	}
 	else
 	{
 		if (start_y > finish_y)
-			bresenham_y(finish_x, finish_y, start_x, start_y, mlx);
+			bresenham_y(finish_x, finish_y, start_x, start_y, all);
 		else
-			bresenham_y(start_x, start_y, finish_x, finish_y, mlx);
+			bresenham_y(start_x, start_y, finish_x, finish_y, all);
 	}
+	mlx_put_image_to_window(all->mlx->mlx, all->mlx->win, all->img->ptr, 0, 0);
 }
 
 int	key_press(int keycode, t_mlx *mlx)
@@ -220,18 +224,24 @@ void	projection(t_point *point, t_handler handler)
 		parallel(point, handler);
 }
 
-int	main_loop(t_all all)
+int	main_loop(t_all *all)
 {
 	t_point **point;
 	t_mlx mlx;
 	t_map *map;
+	t_img *img;
 
-	point = *(all.point);
-	mlx = *(all.mlx);
-	map = all.map;
+	point = *(all->point);
+	mlx = *(all->mlx);
+	map = all->map;
+	img = all->img;
+	//if (flag == 1)
+	mlx_destroy_image(mlx.mlx, img->ptr);
 	mlx_clear_window(mlx.mlx, mlx.win);
+	all->img->ptr = mlx_new_image(mlx.mlx, 1600, 900);
+	all->img->data = (int *)mlx_get_data_addr(img->ptr, \
+		&(img->bpp), &(img->size_l), &(img->endian));
 
-	mlx.img = mlx_new_image(mlx.mlx, 1600, 900);
 	for (int i = 0; i < map->height; ++i)
 	{
 		for (int j = 0; j < map->width; ++j)
@@ -246,14 +256,14 @@ int	main_loop(t_all all)
 	{
 		for (int j = 1; j < map->width; ++j)
 		{
-			bresenham(mlx.handler.scale * point[i][j - 1].iso_x, mlx.handler.scale * point[i][j - 1].iso_y, mlx.handler.scale * point[i][j].iso_x, mlx.handler.scale * point[i][j].iso_y, mlx);
+			bresenham(mlx.handler.scale * point[i][j - 1].iso_x, mlx.handler.scale * point[i][j - 1].iso_y, mlx.handler.scale * point[i][j].iso_x, mlx.handler.scale * point[i][j].iso_y, all);
 		}
 	}
 	for (int i = 1; i < map->height; ++i)
 	{
 		for (int j = 0; j < map->width; ++j)
 		{
-			bresenham(mlx.handler.scale * point[i - 1][j].iso_x, mlx.handler.scale * point[i - 1][j].iso_y, mlx.handler.scale * point[i][j].iso_x, mlx.handler.scale * point[i][j].iso_y, mlx);
+			bresenham(mlx.handler.scale * point[i - 1][j].iso_x, mlx.handler.scale * point[i - 1][j].iso_y, mlx.handler.scale * point[i][j].iso_x, mlx.handler.scale * point[i][j].iso_y, all);
 		}
 	}
 	return (0);
@@ -274,6 +284,11 @@ int	main(int argc, char **argv)
 	all.map = map;
 	all.mlx = &mlx;
 	all.point = &point;
+	all.img = calloc(1, sizeof(t_img));
+	all.img->ptr = mlx_new_image(mlx.mlx, 1600, 900);
+	// all.img->data = (int *)mlx_get_data_addr(all.img->ptr, \
+	// 	&(all.img->bpp), &(all.img->size_l), &(all.img->endian));
+	//all.flag = 0;
 
 	mlx_hook(mlx.win, X_EVENT_KEY_PRESS, 0, key_press, &mlx);
 	mlx_loop_hook(mlx.mlx, main_loop, &all);
