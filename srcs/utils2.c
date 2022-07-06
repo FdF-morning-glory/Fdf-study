@@ -11,7 +11,7 @@ void	get_one_line(t_point *point, int y, char *a_line, int width)
 	int		x;
 
 	i = 0;
-	split = ft_split(a_line, ' ');
+	split = ft_split(a_line, " ");
 	while(i < width)
 	{
 		point[i].x = i;

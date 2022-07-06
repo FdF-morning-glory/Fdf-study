@@ -3,61 +3,46 @@
 /*                                                        :::      ::::::::   */
 /*   ft_atoi.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinypark <jinypark@student.42seoul.>       +#+  +:+       +#+        */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/11 17:48:36 by jinypark          #+#    #+#             */
-/*   Updated: 2022/03/31 16:55:57 by jinypark         ###   ########.fr       */
+/*   Created: 2021/12/14 16:27:13 by hogkim            #+#    #+#             */
+/*   Updated: 2022/01/04 16:40:58 by hogkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <limits.h>
+#include "libft.h"
 
-static int	check_space(const char *str, int i)
+int	over_range(unsigned long long int value, int sign)
 {
-	while (str[i] == ' ' || ('\t' <= str[i] && str[i] <= '\r'))
-		i++;
-	return (i);
-}
-
-static int	num_count(const char *str, int i, int sign)
-{
-	unsigned long	nbr;
-	int				n;
-
-	nbr = 0;
-	while ('0' <= str[i] && str[i] <= '9')
-	{
-		n = str[i] - '0';
-		if (sign == 1 && (nbr > LONG_MAX / 10 || \
-					(nbr == LONG_MAX / 10 && n > LONG_MAX % 10)))
-			return ((int)LONG_MAX);
-		else if (sign == -1 && (nbr > LONG_MAX / 10 || \
-					(nbr == LONG_MAX / 10 && n > -(LONG_MIN % 10))))
-			return ((int)LONG_MIN);
-		nbr = nbr * 10 + n;
-		i++;
-	}
-	return (nbr);
-}
-
-static int	check_sign(char c)
-{
-	if (c == '+')
-		return (1);
-	else if (c == '-')
+	if (value > 9223372036854775806 && sign == 1)
 		return (-1);
-	return (0);
+	if (value > 9223372036854775807 && sign == -1)
+		return (0);
+	return (value);
 }
 
 int	ft_atoi(const char *str)
 {
-	int			i;
-	int			sign;
+	size_t					i;
+	int						sign;
+	unsigned long long int	value;
 
-	i = 0;
 	sign = 1;
-	i = check_space(str, i);
-	if (check_sign(str[i]))
-		sign = check_sign(str[i++]);
-	return (sign * num_count(str, i, sign));
+	value = 0;
+	i = 0;
+	while ((str[i] >= 9 && str[i] <= 13) || str[i] == 32)
+		i++;
+	if (str[i] == '-' || str[i] == '+')
+	{
+		if (str[i] == '-')
+			sign = -1;
+		i++;
+	}
+	while (str[i] >= '0' && str[i] <= '9')
+	{
+		value = 10 * value + str[i] - '0';
+		i++;
+	}
+	value = over_range(value, sign);
+	return (sign * value);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_striteri.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinypark <jinypark@student.42seoul.>       +#+  +:+       +#+        */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/15 16:30:09 by jinypark          #+#    #+#             */
-/*   Updated: 2022/03/31 16:11:33 by jinypark         ###   ########.fr       */
+/*   Created: 2021/12/17 00:29:40 by hogkim            #+#    #+#             */
+/*   Updated: 2021/12/17 00:33:28 by hogkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,9 @@
 
 void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {
-	unsigned int	i;
+	size_t	i;
 
-	if (s == NULL)
+	if (!s || !f)
 		return ;
 	i = 0;
 	while (s[i])

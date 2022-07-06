@@ -2,7 +2,6 @@
 #include <stdlib.h>
 #include <fcntl.h>
 #include "../libft/libft.h"
-#include "../gnl/get_next_line.h"
 #include "fdf.h"
 
 void	ft_error(char *str)

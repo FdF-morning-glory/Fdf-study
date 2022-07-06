@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_word_count.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: surlee <surlee@student.42.seoul.kr>        +#+  +:+       +#+        */
+/*   By: hogkim <hogkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/06/28 16:03:02 by hogkim            #+#    #+#             */
-/*   Updated: 2022/06/29 13:51:50 by sesim            ###   ########.fr       */
+/*   Updated: 2022/06/30 20:19:57 by hogkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "fdf.h"
-#include <unistd.h>
+# include "libft.h"
 
-int	is_set(char c, char const *set)
+static int	is_set(char c, char const *set)
 {
 	int	i;
 
@@ -27,10 +26,10 @@ int	is_set(char c, char const *set)
 	return (0);
 }
 
-size_t	ft_word_count(char const *s, char const *set)
+int	ft_word_count(char const *s, char const *set)
 {
-	size_t	i;
-	size_t	count;
+	int	i;
+	int	count;
 
 	i = 0;
 	count = 0;

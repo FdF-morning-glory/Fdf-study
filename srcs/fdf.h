@@ -94,7 +94,7 @@ void	ft_error(char *str);
 void	ft_check_args(int argc, char **argv);
 int		ft_open_file(char *file_name);
 t_map	rec_checker(char *file_name);
-size_t	ft_word_count(char const *s, char const *set);
+// size_t	ft_word_count(char const *s, char const *set);
 int		is_set(char c, char const *set);
 t_point	**make_points(t_map *map, char *file_name);
 void	ft_isometric(double *x, double *y, double z);

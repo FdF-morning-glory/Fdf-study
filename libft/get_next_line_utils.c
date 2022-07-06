@@ -3,80 +3,82 @@
 /*                                                        :::      ::::::::   */
 /*   get_next_line_utils.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinypark <jinypark@student.42seoul.>       +#+  +:+       +#+        */
+/*   By: hogkim <hogkim@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/04/07 15:07:04 by jinypark          #+#    #+#             */
-/*   Updated: 2022/04/19 17:15:27 by jinypark         ###   ########.fr       */
+/*   Created: 2022/01/12 23:26:06 by hogkim            #+#    #+#             */
+/*   Updated: 2022/06/30 20:23:25 by hogkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-t_list	*ft_lstnew(int fd)
+char	*ft_strdup(const char *s1)
 {
-	t_list	*new;
+	size_t	i;
+	char	*str;
 
-	new = (t_list *)malloc(sizeof(t_list));
-	if (!new)
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + 1));
+	if (!str)
 		return (NULL);
-	new->fd = fd;
-	new->next = NULL;
-	new->content = NULL;
-	return (new);
-}
-
-int	ft_strchr(const char *s, int c)
-{
-	int	i;
-
 	i = 0;
-	if (s == NULL)
-		return (-1);
-	while (s[i])
+	while (s1[i])
 	{
-		if ((char)c == s[i])
-			return (i);
+		str[i] = s1[i];
 		i++;
 	}
-	if (c == '\0')
-		return (i);
-	return (-1);
+	str[i] = 0;
+	return (str);
 }
 
-char	*ft_strcat(char *dest, char const *src)
+size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize)
 {
-	size_t	dest_len;
 	size_t	i;
+	size_t	j;
 
-	dest_len = ft_strchr(dest, '\0');
 	i = 0;
 	while (src[i])
-	{
-		dest[dest_len + i] = src[i];
 		i++;
+	if (dstsize == 0)
+		return (i);
+	j = 0;
+	while (j < dstsize - 1 && j < i)
+	{
+		dst[j] = src[j];
+		j++;
 	}
-	dest[dest_len + i] = '\0';
-	return (dest);
+	dst[j] = 0;
+	return (i);
 }
 
-
-
-char	*ft_strjoin(char *s1, char *s2)
+int	ft_no_newline(char *s)
 {
-	char	*arr;
-	size_t	len;
+	size_t	i;
 
-	if (s2 == NULL)
-		return (NULL);
-	if (s1 == NULL)
+	if (!s)
+		return (1);
+	i = 0;
+	while (s[i])
+	{
+		if (s[i] == '\n')
+			return (0);
+		i++;
+	}
+	return (1);
+}
+
+char	*ft_strjoin_gnl(char *s1, char *s2)
+{
+	char	*str;
+
+	if (!s1)
 		s1 = ft_strdup("");
-	len = ft_strchr(s1, '\0') + ft_strchr(s2, '\0');
-	arr = (char *)malloc(sizeof(char) * (len + 1));
-	if (arr == NULL)
+	if (!s1 || !s2)
 		return (NULL);
-	arr[0] = '\0';
-	ft_strcat(arr, s1);
-	ft_strcat(arr, s2);
+	str = (char *)malloc(sizeof(char) * (ft_strlen(s1) + ft_strlen(s2) + 1));
+	if (!str)
+		return (NULL);
+	ft_strlcpy(str, s1, ft_strlen(s1) + 1);
+	ft_strlcpy(&str[ft_strlen(s1)], s2, ft_strlen(s2) + 1);
 	free(s1);
-	return (arr);
+	return (str);
 }

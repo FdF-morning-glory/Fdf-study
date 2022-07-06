@@ -3,30 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinypark <jinypark@student.42seoul.>       +#+  +:+       +#+        */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/15 16:33:01 by jinypark          #+#    #+#             */
-/*   Updated: 2022/03/31 16:08:52 by jinypark         ###   ########.fr       */
+/*   Created: 2021/12/15 21:58:21 by hogkim            #+#    #+#             */
+/*   Updated: 2021/12/28 20:30:45 by hogkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static size_t	ft_intlen(int n)
+long long int	ft_abs(long long int nb)
 {
-	int			len;
-	long long	nb;
-
-	nb = n;
-	len = 0;
 	if (nb < 0)
+		return (nb * (-1));
+	return (nb);
+}
+
+size_t	nb_len(long long int nb)
+{
+	size_t	len;
+
+	len = 0;
+	if (nb <= 0)
 	{
-		len++;
+		len = 1;
 		nb *= -1;
 	}
-	if (nb == 0)
-		return (1);
-	while (nb > 0)
+	while (nb)
 	{
 		nb /= 10;
 		len++;
@@ -34,36 +37,29 @@ static size_t	ft_intlen(int n)
 	return (len);
 }
 
-static void	ft_putnbr(char *arr, int n, size_t len)
-{
-	long long	nb;
-
-	nb = n;
-	if (nb < 0)
-	{
-		arr[0] = '-';
-		nb *= -1;
-	}
-	if (nb == 0)
-		arr[0] = '0';
-	while (nb > 0)
-	{
-		arr[len - 1] = nb % 10 + '0';
-		nb /= 10;
-		len--;
-	}
-}
-
 char	*ft_itoa(int n)
 {
-	size_t	len;
-	char	*arr;
+	char			*str;
+	size_t			i;
+	long long int	nb;
 
-	len = ft_intlen(n);
-	arr = (char *)malloc(sizeof(char) * (len + 1));
-	if (arr == NULL)
+	nb = (long long int)n;
+	str = (char *)malloc(sizeof(char) * (nb_len(nb) + 1));
+	if (!str)
 		return (NULL);
-	ft_putnbr(arr, n, len);
-	arr[len] = '\0';
-	return (arr);
+	i = nb_len(nb);
+	str[i] = 0;
+	if (n < 0)
+		str[0] = '-';
+	nb = ft_abs(nb);
+	i--;
+	if (nb == 0)
+		str[0] = '0';
+	while (nb > 0)
+	{
+		str[i] = nb % 10 + '0';
+		nb /= 10;
+		i--;
+	}
+	return (str);
 }

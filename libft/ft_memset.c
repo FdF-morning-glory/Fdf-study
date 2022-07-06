@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_memset.c                                        :+:      :+:    :+:   */
+/*   memset.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinypark <jinypark@student.42seoul.>       +#+  +:+       +#+        */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/11 20:16:25 by jinypark          #+#    #+#             */
-/*   Updated: 2022/03/31 16:10:17 by jinypark         ###   ########.fr       */
+/*   Created: 2021/11/16 15:57:01 by hogkim            #+#    #+#             */
+/*   Updated: 2021/11/25 16:35:33 by hogkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,13 @@
 
 void	*ft_memset(void *b, int c, size_t len)
 {
-	size_t			i;
-	unsigned char	*tmp;
+	size_t	i;
 
-	tmp = b;
 	i = 0;
 	while (i < len)
-		tmp[i++] = (unsigned char)c;
+	{
+		*((unsigned char *)b + i) = (unsigned char)c;
+		i++;
+	}
 	return (b);
 }

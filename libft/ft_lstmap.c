@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstmap.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinypark <jinypark@student.42seoul.>       +#+  +:+       +#+        */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/18 17:42:23 by jinypark          #+#    #+#             */
-/*   Updated: 2022/03/31 17:01:10 by jinypark         ###   ########.fr       */
+/*   Created: 2021/12/22 23:56:48 by hogkim            #+#    #+#             */
+/*   Updated: 2022/01/03 05:57:38 by hogkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,25 +14,26 @@
 
 t_list	*ft_lstmap(t_list *lst, void *(*f)(void *), void (*del)(void *))
 {
-	t_list	*tmp;
-	t_list	*first;
+	t_list	*fed_lst;
+	t_list	*temp;
 
-	if (lst == NULL || f == NULL || del == NULL)
+	if (!lst || !f)
 		return (NULL);
-	tmp = ft_lstnew(f(lst->content));
-	if (tmp == NULL)
+	fed_lst = ft_lstnew(f(lst->content));
+	if (!fed_lst)
 		return (NULL);
-	first = tmp;
-	while (lst->next)
+	temp = fed_lst;
+	lst = lst->next;
+	while (lst)
 	{
-		tmp->next = ft_lstnew(f(lst->next->content));
-		if (!tmp->next)
+		temp->next = ft_lstnew(f(lst->content));
+		if (!temp)
 		{
-			ft_lstclear(&first, del);
+			ft_lstclear(&fed_lst, del);
 			return (NULL);
 		}
-		tmp = tmp->next;
+		temp = temp->next;
 		lst = lst->next;
 	}
-	return (first);
+	return (fed_lst);
 }

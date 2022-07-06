@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_substr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinypark <jinypark@student.42seoul.>       +#+  +:+       +#+        */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/11 20:38:08 by jinypark          #+#    #+#             */
-/*   Updated: 2022/03/31 16:12:21 by jinypark         ###   ########.fr       */
+/*   Created: 2021/12/14 17:05:46 by hogkim            #+#    #+#             */
+/*   Updated: 2022/01/03 06:42:54 by hogkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,19 @@
 
 char	*ft_substr(char const *s, unsigned int start, size_t len)
 {
-	unsigned int	i;
-	char			*arr;
+	char	*substr;
+	size_t	check_len;
 
-	if (s == NULL)
+	if (!s)
 		return (NULL);
-	if (start >= ft_strlen(s))
-		len = 0;
-	else if (ft_strlen(s) < len)
-		len = ft_strlen(s);
-	arr = (char *)malloc(sizeof(char) * (len + 1));
-	if (arr == NULL)
+	if (ft_strlen(s) <= start)
+		return (ft_strdup(""));
+	check_len = ft_strlen(s + start);
+	if (len > check_len)
+		len = check_len;
+	substr = (char *)malloc(sizeof(char) * (len + 1));
+	if (!substr)
 		return (NULL);
-	i = 0;
-	while (i < len && s[start])
-		arr[i++] = s[start++];
-	arr[i] = '\0';
-	return (arr);
+	ft_strlcpy(substr, s + start, len + 1);
+	return (substr);
 }

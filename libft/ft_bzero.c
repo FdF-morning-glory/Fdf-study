@@ -3,23 +3,23 @@
 /*                                                        :::      ::::::::   */
 /*   ft_bzero.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: jinypark <jinypark@student.42seoul.>       +#+  +:+       +#+        */
+/*   By: hogkim <hogkim@student.42seoul.kr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/11 20:08:22 by jinypark          #+#    #+#             */
-/*   Updated: 2022/03/31 16:08:40 by jinypark         ###   ########.fr       */
+/*   Created: 2021/11/16 16:11:00 by hogkim            #+#    #+#             */
+/*   Updated: 2021/12/28 20:42:04 by hogkim           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-void	*ft_bzero(void *s, size_t n)
+void	ft_bzero(void *s, size_t n)
 {
-	size_t			i;
-	unsigned char	*tmp;
+	size_t	i;
 
-	tmp = (unsigned char *)s;
 	i = 0;
 	while (i < n)
-		tmp[i++] = 0;
-	return (tmp);
+	{
+		*((unsigned char *)s + i) = 0;
+		i++;
+	}
 }
