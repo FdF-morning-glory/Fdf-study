@@ -1,8 +1,18 @@
 #ifndef FDF_H
 # define FDF_H
 
-# define PI 3.14159
 # include <unistd.h>
+
+typedef struct s_img
+{
+	void	*ptr;
+	int		*data;
+	int		width;
+	int		height;
+	int		size_l;
+	int		bpp;
+	int		endian;
+}	t_img;
 
 typedef struct	s_mlx
 {
