@@ -5,7 +5,7 @@
 #include <stdio.h>
 #include "fdf.h"
 
-void	bresenham_x(double start_x, double start_y, double finish_x, double finish_y, t_mlx mlx)
+void	bresenham_x(double start_x, double start_y, double finish_x, double finish_y, t_mlx mlx, t_img *img)
 {
 	double width;
 	double height;
@@ -34,12 +34,13 @@ void	bresenham_x(double start_x, double start_y, double finish_x, double finish_
 			y += Yfactor;
 			formula += 2 * (height - width);
 		}
-		mlx_pixel_put(mlx.mlx, mlx.win, x + mlx.handler.delta_x , y + mlx.handler.delta_y, 0x00FF00);
+		img->data[(int)((1600 * (y)) + (x))] = 0x00FF00;
+		// mlx_pixel_put(mlx.mlx, mlx.win, x + mlx.handler.delta_x , y + mlx.handler.delta_y, 0x00FF00);
 		x += 1;
 	}
 }
 
-void	bresenham_y(double start_x, double start_y, double finish_x, double finish_y, t_mlx mlx)
+void	bresenham_y(double start_x, double start_y, double finish_x, double finish_y, t_mlx mlx, t_img *img)
 {
 	double width;
 	double height;
@@ -68,13 +69,14 @@ void	bresenham_y(double start_x, double start_y, double finish_x, double finish_
 			x += Xfactor;
 			formula += 2 * (width - height);
 		}
-		mlx_pixel_put(mlx.mlx, mlx.win, x + mlx.handler.delta_x , y + mlx.handler.delta_y, 0x00FF00);
+		img->data[(int)((1600 * (y)) + (x))] = 0x00FF00;
+		// mlx.mlx, mlx.win, x + mlx.handler.delta_x , y + mlx.handler.delta_y, 0x00FF00);
 		y += 1;
 	}
 }
 
 
-void	bresenham(double start_x, double start_y, double finish_x, double finish_y, t_mlx mlx)
+void	bresenham(double start_x, double start_y, double finish_x, double finish_y, t_mlx mlx, t_img *img)
 {
 	double width;
 	double height;
@@ -89,16 +91,16 @@ void	bresenham(double start_x, double start_y, double finish_x, double finish_y,
 	if (width > height)
 	{
 		if (start_x > finish_x)
-			bresenham_x(finish_x, finish_y, start_x, start_y, mlx);
+			bresenham_x(finish_x, finish_y, start_x, start_y, mlx, img);
 		else
-			bresenham_x(start_x, start_y, finish_x, finish_y, mlx);
+			bresenham_x(start_x, start_y, finish_x, finish_y, mlx, img);
 	}
 	else
 	{
 		if (start_y > finish_y)
-			bresenham_y(finish_x, finish_y, start_x, start_y, mlx);
+			bresenham_y(finish_x, finish_y, start_x, start_y, mlx, img);
 		else
-			bresenham_y(start_x, start_y, finish_x, finish_y, mlx);
+			bresenham_y(start_x, start_y, finish_x, finish_y, mlx, img);
 	}
 }
 
@@ -223,15 +225,17 @@ void	projection(t_point *point, t_handler handler)
 int	main_loop(t_all all)
 {
 	t_point **point;
-	t_mlx mlx;
-	t_map *map;
+	t_mlx	mlx;
+	t_map	*map;
 
 	point = *(all.point);
 	mlx = *(all.mlx);
 	map = all.map;
+	mlx_destroy_image(mlx.mlx, all.img->ptr);
 	mlx_clear_window(mlx.mlx, mlx.win);
 
-	mlx.img = mlx_new_image(mlx.mlx, 1600, 900);
+	all.img->ptr = mlx_new_image(mlx.mlx, 1600, 900);
+	all.img->data = (int *)mlx_get_data_addr(all.img->ptr, &all.img->bpp, &all.img->size_l, &all.img->endian);
 	for (int i = 0; i < map->height; ++i)
 	{
 		for (int j = 0; j < map->width; ++j)
@@ -246,16 +250,17 @@ int	main_loop(t_all all)
 	{
 		for (int j = 1; j < map->width; ++j)
 		{
-			bresenham(mlx.handler.scale * point[i][j - 1].iso_x, mlx.handler.scale * point[i][j - 1].iso_y, mlx.handler.scale * point[i][j].iso_x, mlx.handler.scale * point[i][j].iso_y, mlx);
+			bresenham(mlx.handler.scale * point[i][j - 1].iso_x, mlx.handler.scale * point[i][j - 1].iso_y, mlx.handler.scale * point[i][j].iso_x, mlx.handler.scale * point[i][j].iso_y, mlx, all.img);
 		}
 	}
 	for (int i = 1; i < map->height; ++i)
 	{
 		for (int j = 0; j < map->width; ++j)
 		{
-			bresenham(mlx.handler.scale * point[i - 1][j].iso_x, mlx.handler.scale * point[i - 1][j].iso_y, mlx.handler.scale * point[i][j].iso_x, mlx.handler.scale * point[i][j].iso_y, mlx);
+			bresenham(mlx.handler.scale * point[i - 1][j].iso_x, mlx.handler.scale * point[i - 1][j].iso_y, mlx.handler.scale * point[i][j].iso_x, mlx.handler.scale * point[i][j].iso_y, mlx, all.img);
 		}
 	}
+	mlx_put_image_to_window(mlx.mlx, mlx.win, all.img->ptr, mlx.handler.delta_x, mlx.handler.delta_y);
 	return (0);
 }
 
@@ -266,6 +271,7 @@ int	main(int argc, char **argv)
 	t_point	**point;
 	t_mlx	mlx;
 	t_all	all;
+	t_img	img;
 
 	map = malloc(sizeof(t_map));
 	*map = rec_checker(argv[1]);
@@ -275,6 +281,7 @@ int	main(int argc, char **argv)
 	all.mlx = &mlx;
 	all.point = &point;
 
+	all.img->ptr = mlx_new_image(all.mlx->mlx, 50, 50);
 	mlx_hook(mlx.win, X_EVENT_KEY_PRESS, 0, key_press, &mlx);
 	mlx_loop_hook(mlx.mlx, main_loop, &all);
 	mlx_loop(mlx.mlx);

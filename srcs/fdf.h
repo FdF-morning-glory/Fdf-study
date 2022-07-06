@@ -4,6 +4,17 @@
 # define PI 3.14159
 # include <unistd.h>
 
+typedef struct s_img
+{
+	void	*ptr;
+	int		*data;
+	int		width;
+	int		height;
+	int		size_l;
+	int		bpp;
+	int		endian;
+}	t_img;
+
 typedef struct	s_handler
 {
 	double	scale;
@@ -20,7 +31,6 @@ typedef struct	s_mlx
 {
 	void		*mlx;
 	void		*win;
-	void		*img;
 	t_handler	handler;
 }	t_mlx;
 
@@ -46,6 +56,7 @@ typedef struct	s_all
 	t_map		*map;
 	t_mlx		*mlx;
 	t_point		***point;
+	t_img		*img;
 }	t_all;
 
 #define X_EVENT_KEY_PRESS 2
