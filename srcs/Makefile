@@ -9,5 +9,5 @@ test2:
 	rm -rf ./a.out
 
 test3:
-	cc  -g -fsanitize=address *.c ../libft/libft.a ../minilibx_macos/libmlx.a -framework openGL -framework AppKit
-# cc *.c ../libft/libft.a ../minilibx_macos/libmlx.a -framework openGL -framework AppKit
+	cc *.c ../libft/libft.a ../minilibx_macos/libmlx.a -framework openGL -framework AppKit
+#	cc  -g -fsanitize=address *.c ../libft/libft.a ../minilibx_macos/libmlx.a -framework openGL -framework AppKit

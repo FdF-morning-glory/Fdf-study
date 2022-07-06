@@ -57,7 +57,6 @@ typedef struct	s_all
 	t_mlx		*mlx;
 	t_img		*img;
 	t_point		***point;
-	int			flag //++++++++++++++++++임시+++++++++++
 }	t_all;
 
 #define X_EVENT_KEY_PRESS 2

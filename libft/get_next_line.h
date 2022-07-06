@@ -6,7 +6,7 @@
 /*   By: surlee <surlee@student.42.seoul.kr>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/01/05 20:25:11 by hogkim            #+#    #+#             */
-/*   Updated: 2022/07/06 17:06:58 by surlee           ###   ########.fr       */
+/*   Updated: 2022/07/06 18:04:47 by surlee           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <limits.h>
 # include "libft.h"
 
-# define BUFFER_SIZE 100000
+# define BUFFER_SIZE 10000
 
 char	*ft_strdup(const char *s1);
 size_t	ft_strlcpy(char *dst, const char *src, size_t dstsize);
