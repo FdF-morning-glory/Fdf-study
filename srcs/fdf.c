@@ -231,6 +231,7 @@ int	main_loop(t_all all)
 	map = all.map;
 	mlx_clear_window(mlx.mlx, mlx.win);
 
+	mlx.img = mlx_new_image(mlx.mlx, 1600, 900);
 	for (int i = 0; i < map->height; ++i)
 	{
 		for (int j = 0; j < map->width; ++j)
@@ -240,7 +241,7 @@ int	main_loop(t_all all)
 			rotate_x(point[i][j].iso_y, point[i][j].rotated_z, &point[i][j], mlx.handler.angle_x);
 			projection(&point[i][j], mlx.handler);
 		}
-	}	
+	}
 	for (int i = 0; i < map->height; ++i)
 	{
 		for (int j = 1; j < map->width; ++j)
