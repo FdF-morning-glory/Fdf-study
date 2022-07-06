@@ -36,7 +36,8 @@ void	bresenham_x(double start_x, double start_y, double finish_x, double finish_
 		}
 		//all->img->data[(int) (y + x)] = 0x00FF00;
 		// all->img->data[(unsigned) (1600 * y + x)] = 0x00FF00;
-		all->img->data[(int)(1600 * (y + all->mlx->handler.delta_y) + x + all->mlx->handler.delta_x)] = 0xFFFFFF;
+		// printf("%lf, %lf\n", x + all->mlx->handler.delta_x ,y + all->mlx->handler.delta_y);
+		all->img->data[(1600 * (int)(y + all->mlx->handler.delta_y) + (int)x + (int)all->mlx->handler.delta_x)] = 0xFFFFFF;
 		// mlx_pixel_put(mlx.mlx, mlx.win, x + mlx.handler.delta_x , y + mlx.handler.delta_y, 0x00FF00);
 		x += 1;
 	}
@@ -71,7 +72,7 @@ void	bresenham_y(double start_x, double start_y, double finish_x, double finish_
 			x += Xfactor;
 			formula += 2 * (width - height);
 		}
-		all->img->data[(unsigned int) (1600 * (y + all->mlx->handler.delta_y) + x + all->mlx->handler.delta_x)] = 0x00FF00;
+		all->img->data[(1600 * (int)(y + all->mlx->handler.delta_y) + (int)x + (int)all->mlx->handler.delta_x)] = 0x00FF00;
 		// mlx_pixel_put(mlx.mlx, mlx.win, x + mlx.handler.delta_x , y + mlx.handler.delta_y, 0x00FF00);
 		y += 1;
 	}
@@ -103,7 +104,6 @@ void	bresenham(double start_x, double start_y, double finish_x, double finish_y,
 		else
 			bresenham_y(start_x, start_y, finish_x, finish_y, all);
 	}
-	mlx_put_image_to_window(all->mlx->mlx, all->mlx->win, all->img->ptr, 0, 0);
 }
 
 int	key_press(int keycode, t_mlx *mlx)
@@ -266,6 +266,7 @@ int	main_loop(t_all *all)
 			bresenham(mlx.handler.scale * point[i - 1][j].iso_x, mlx.handler.scale * point[i - 1][j].iso_y, mlx.handler.scale * point[i][j].iso_x, mlx.handler.scale * point[i][j].iso_y, all);
 		}
 	}
+	mlx_put_image_to_window(all->mlx->mlx, all->mlx->win, all->img->ptr, 0, 0);
 	return (0);
 }
 
@@ -286,8 +287,8 @@ int	main(int argc, char **argv)
 	all.point = &point;
 	all.img = calloc(1, sizeof(t_img));
 	all.img->ptr = mlx_new_image(mlx.mlx, 1600, 900);
-	// all.img->data = (int *)mlx_get_data_addr(all.img->ptr, \
-	// 	&(all.img->bpp), &(all.img->size_l), &(all.img->endian));
+	all.img->data = (int *)mlx_get_data_addr(all.img->ptr, \
+		&(all.img->bpp), &(all.img->size_l), &(all.img->endian));
 	//all.flag = 0;
 
 	mlx_hook(mlx.win, X_EVENT_KEY_PRESS, 0, key_press, &mlx);
