@@ -59,7 +59,6 @@ void	bresenham_y(double start_x, double start_y, double finish_x, double finish_
 	x = start_x;
 	y = start_y;
 	formula = 2 * width - height;
-	//while (y != finish_y)
 	while (y < finish_y)
 	{
 		if (formula < 0)
@@ -240,7 +239,6 @@ int	main_loop(t_all all)
 			rotate_y(point[i][j].iso_x, point[i][j].z, &point[i][j], mlx.handler.angle_y);
 			rotate_x(point[i][j].iso_y, point[i][j].rotated_z, &point[i][j], mlx.handler.angle_x);
 			projection(&point[i][j], mlx.handler);
-			// ft_isometric(&point[i][j].iso_x, &point[i][j].iso_y, point[i][j].rotated_z);
 		}
 	}	
 	for (int i = 0; i < map->height; ++i)

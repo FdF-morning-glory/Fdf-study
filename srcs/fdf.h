@@ -65,8 +65,8 @@ typedef struct	s_all
 # define KEY_2 19
 # define KEY_3 20
 # define KEY_4 21
-# define KEY_5 22
-# define KEY_6 23
+# define KEY_5 23
+# define KEY_6 22
 
 # define ON 1
 # define OFF 0
