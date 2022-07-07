@@ -35,7 +35,13 @@ void	bresenham_x(double start_x, double start_y, double finish_x, double finish_
 			formula += 2 * (height - width);
 		}
 		// x 계산값이 윈도우 범위를 넘어서면 화면에 표시하지 않는다 / data에 접근하는 인덱스값 이 음수이면 배열에 접근하지 않는다
-		if ((int)x + (int)all->mlx->handler.delta_x < 0 || (int)x + (int)all->mlx->handler.delta_x > 1600 || (1600 * (int)(y + all->mlx->handler.delta_y) + (int)x + (int)all->mlx->handler.delta_x) < 0)
+		//if ((int)x + (int)all->mlx->handler.delta_x < 0 || (int)x + (int)all->mlx->handler.delta_x > 1600 || (1600 * (int)(y + all->mlx->handler.delta_y) + (int)x + (int)all->mlx->handler.delta_x) < 0)
+		// if ((int)(y + all->mlx->handler.delta_y) > 900)
+		// 	return ;
+		if ((int)x + (int)all->mlx->handler.delta_x < 0 || (int)x + (int)all->mlx->handler.delta_x >= 1600 \
+			|| (1600 * (int)(y + all->mlx->handler.delta_y) + (int)x + (int)all->mlx->handler.delta_x) < 0 \
+			|| (1600 * (int)(y + all->mlx->handler.delta_y) + (int)x + (int)all->mlx->handler.delta_x) > 1600 * 900)
+
 		{
 			x+= 1;
 			continue ;
@@ -75,11 +81,23 @@ void	bresenham_y(double start_x, double start_y, double finish_x, double finish_
 			formula += 2 * (width - height);
 		}
 		// x 계산값이 윈도우 범위를 넘어서면 화면에 표시하지 않는다 / data에 접근하는 인덱스값 이 음수이면 배열에 접근하지 않는다
-		if ((int)x + (int)all->mlx->handler.delta_x < 0 || (int)x + (int)all->mlx->handler.delta_x > 1600 || (1600 * (int)(y + all->mlx->handler.delta_y) + (int)x + (int)all->mlx->handler.delta_x) < 0)
+		// if ((int)(y + all->mlx->handler.delta_y) > 900)
+		// 	return ;
+		if ((int)x + (int)all->mlx->handler.delta_x < 0 || (int)x + (int)all->mlx->handler.delta_x >= 1600 \
+			|| (int)(y + all->mlx->handler.delta_y) > 900 || \
+			(1600 * (int)(y + all->mlx->handler.delta_y) + (int)x + (int)all->mlx->handler.delta_x) < 0 \
+			|| (1600 * (int)(y + all->mlx->handler.delta_y) + (int)x + (int)all->mlx->handler.delta_x) > 1600 * 900)
 		{
-			y+= 1;
+			y += 1;
 			continue;
 		}
+		// if ((int)x + (int)all->mlx->handler.delta_x > 0 || (int)x + (int)all->mlx->handler.delta_x < 1600 \
+		// 	|| (int)(y + all->mlx->handler.delta_y) < 900 || \
+		// 	(1600 * (int)(y + all->mlx->handler.delta_y) + (int)x + (int)all->mlx->handler.delta_x) > 0 \
+		// 	|| (1600 * (int)(y + all->mlx->handler.delta_y) + (int)x + (int)all->mlx->handler.delta_x) < 1600 * 900)
+		// {
+		// 	all->img->data[(1600 * (int)(y + all->mlx->handler.delta_y) + (int)x + (int)all->mlx->handler.delta_x)] = 0x00FF00;
+		// }
 		all->img->data[(1600 * (int)(y + all->mlx->handler.delta_y) + (int)x + (int)all->mlx->handler.delta_x)] = 0x00FF00;
 		y += 1;
 	}
@@ -114,18 +132,24 @@ void	bresenham(double start_x, double start_y, double finish_x, double finish_y,
 
 int	key_press(int keycode, t_mlx *mlx)
 {
+	// static double	first_scale;
+
+	// first_scale = mlx->handler.scale;
 	if (keycode == KEY_ESC) //Quit the program when ESC key pressed
 		exit(0);
 	else if (keycode == KEY_UP)
-		--(mlx->handler.delta_y);
+		(mlx->handler.delta_y) -= 30;
 	else if (keycode == KEY_DOWN)
-		++(mlx->handler.delta_y);
+		(mlx->handler.delta_y) += 30;
 	else if (keycode == KEY_LEFT)
-		--(mlx->handler.delta_x);
+		(mlx->handler.delta_x) -= 30;
 	else if (keycode == KEY_RIGHT)
-		++(mlx->handler.delta_x);
+		(mlx->handler.delta_x) += 30;
 	else if (keycode == KEY_Q)
-		(mlx->handler.scale) += mlx->handler.scale * 0.1;
+	{
+		if (mlx->handler.scale < mlx->handler.first_scale * 10)
+			(mlx->handler.scale) += mlx->handler.scale * 0.1;
+	}
 	else if (keycode == KEY_W)
 		(mlx->handler.scale) -= mlx->handler.scale * 0.1;
 	else if (keycode == KEY_1)
@@ -180,24 +204,28 @@ void	set_mlx(t_mlx *mlx, t_map *map)
 	if (map->width < 20)
 	{
 		mlx->handler.scale = 25;
+		mlx->handler.first_scale = 25;
 		mlx->handler.delta_x = 650;
 		mlx->handler.delta_y = 400;
 	}
 	else if (map->width < 50)
 	{
 		mlx->handler.scale = 20;
+		mlx->handler.first_scale = 20;
 		mlx->handler.delta_x = 800;
 		mlx->handler.delta_y = 200;
 	}
 	else if (map->width < 210)
 	{
 		mlx->handler.scale = 4;
+		mlx->handler.first_scale = 4;
 		mlx->handler.delta_x = 600;
 		mlx->handler.delta_y = 100;
 	}
 	else
 	{
 		mlx->handler.scale = 1;
+		mlx->handler.first_scale = 1;
 		mlx->handler.delta_x = 300;
 		mlx->handler.delta_y = 100;
 	}
@@ -232,16 +260,15 @@ void	projection(t_point *point, t_handler handler)
 
 int	main_loop(t_all *all)
 {
-	t_point **point;
-	t_mlx mlx;
-	t_map *map;
-	t_img *img;
+	t_point	**point;
+	t_mlx	mlx;
+	t_map	*map;
+	t_img	*img;
 
 	point = *(all->point);
 	mlx = *(all->mlx);
 	map = all->map;
 	img = all->img;
-	//if (flag == 1)
 	mlx_destroy_image(mlx.mlx, img->ptr);
 	mlx_clear_window(mlx.mlx, mlx.win);
 	all->img->ptr = mlx_new_image(mlx.mlx, 1600, 900);

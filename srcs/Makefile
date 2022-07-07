@@ -1,5 +1,5 @@
 test :
-	cc  -g -fsanitize=address *.c ../libft/libft.a ../minilibx_macos/libmlx.a -framework openGL -framework AppKit
+	cc *.c ../libft/libft.a ../minilibx_macos/libmlx.a -framework openGL -framework AppKit
 	./a.out ../test_maps/42.fdf
 	rm -rf ./a.out
 

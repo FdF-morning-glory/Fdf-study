@@ -18,6 +18,7 @@ typedef struct s_img
 typedef struct	s_handler
 {
 	double	scale;
+	double	first_scale;
 	double	angle_x;
 	double	angle_y;
 	double	angle_z;
@@ -39,9 +40,9 @@ typedef struct	s_point
 	int			x;
 	int			y;
 	int			z;
-	double	rotated_z;
-	double	iso_x;
-	double	iso_y;
+	double		rotated_z;
+	double		iso_x;
+	double		iso_y;
 }	t_point;
 
 typedef struct	s_map
